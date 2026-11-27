@@ -1,59 +1,69 @@
-# PolyForm Strict License 1.0.0
+Writing Universe Template Proprietary Use License 1.1
 
-<https://polyformproject.org/licenses/strict/1.0.0>
+Copyright (c) 2026 Writing Universe Template contributors
+All rights reserved except as expressly granted below.
 
-## Acceptance
+1. PERMITTED USE
 
-In order to get any license under these terms, you must agree to them as both strict obligations and conditions to all your licenses.
+A person or organization that lawfully receives access to the Writing Universe Template (the "Framework") may:
 
-## Copyright License
+- use the Framework to create, organize, manage, and produce its own fictional storyworlds, stories, characters, settings, productions, and related projects;
+- copy and modify the Framework for its own use;
+- use the Framework in connection with personal, educational, nonprofit, or commercial creative projects; and
+- share copies internally with employees, contractors, collaborators, or team members who are working on the same project and who are bound by restrictions at least as protective as these terms.
 
-The licensor grants you a copyright license for the software to do everything you might do with the software that would otherwise infringe the licensor's copyright in it for any permitted purpose, other than distributing the software or making changes or new works based on the software.
+1A. CREATOR PROJECT REPOSITORIES AND PUBLIC SHARING
 
-## Patent License
+A "Creator Project" is a repository or other project started or maintained in good faith to create, organize, or produce a user's original fictional storyworld, story, or other creative work, including a newly created project that has not yet been filled with original content. The Framework must support that creative project rather than be marketed or distributed primarily as a reusable framework, blank template, toolkit, starter repository, library, or similar product.
 
-The licensor grants you a patent license for the software that covers patent claims the licensor can license, or becomes able to license, that you would infringe by using the software.
+In addition to Section 1, a person or organization lawfully using the Framework may:
 
-## Noncommercial Purposes
+- generate a new Creator Project repository from an authorized Writing Universe Template distribution and copy or adapt Framework files within that Creator Project;
+- host, display, publish, and share that Creator Project repository publicly or privately, including on GitHub or a comparable source-hosting service, even if the original creative project itself has a commercial purpose;
+- permit the hosting service and other users to view, download, clone, and fork the Creator Project repository through normal repository functionality, and permit collaborators to make and share changes to the Creator Project; and
+- retain Framework files in the Creator Project's copies, branches, forks, and genuine project continuations, subject to this license.
 
-Any noncommercial purpose is a permitted purpose.
+These permissions apply directly to downstream recipients of the Framework files who lawfully obtain them in such a Creator Project, solely for their own bona fide Creator Project work and participation in or continuation of that project, subject to all the same Framework restrictions. This is a direct permission from the Framework rights holder, not a right to sublicense the Framework under another license.
 
-## Personal Uses
+The permissions in this Section require that users:
 
-Personal use for research, experiment, and testing for the benefit of public knowledge, personal study, private entertainment, hobby projects, amateur pursuits, or religious observance, without any anticipated commercial application, is use for a permitted purpose.
+- preserve the Framework's existing copyright notices, LICENSE text, and applicable Framework attribution in publicly shared copies of its files;
+- distinguish the Framework files from the creator's original fictional content and respect the rights and permissions governing that original content; and
+- not represent their project repository or a copy of it as an officially endorsed Writing Universe Template distribution.
 
-## Noncommercial Organizations
+Publishing or allowing a fork of a Creator Project does not authorize offering the Framework itself as a competing standalone product, selling access to the Framework files, or removing the restrictions in Section 3. The Framework permissions in this Section do not grant permission to reproduce, adapt, or license another creator's original fictional works; those rights remain governed by that creator's own permissions and applicable platform terms.
 
-Use by any charitable organization, educational institution, public research organization, public safety or health organization, environmental protection organization, or government institution is use for a permitted purpose regardless of the source of funding or obligations resulting from the funding.
+2. USER-CREATED CONTENT
 
-## Fair Use
+This license does not claim ownership of original fictional canon, prose, scripts, artwork, audio, video, research, production assets, or other original content created by a Framework user.
 
-You may have "fair use" rights for the software under the law. These terms do not limit them.
+A Framework user may publish, sell, license, distribute, or otherwise commercially exploit that user's original project content and finished creative works. A creator should specify separate rights or licensing terms for original storyworld content that the creator chooses to share publicly. This Framework license does not automatically license that original content to others.
 
-## No Other Rights
+3. FRAMEWORK REDISTRIBUTION RESTRICTIONS
 
-These terms do not allow you to sublicense or transfer any of your licenses to anyone else, or prevent the licensor from granting licenses to anyone else.  These terms do not imply any other licenses.
+Except for the specifically permitted Creator Project uses in Section 1A, and except with prior written permission from the copyright holder, a user may not:
 
-## Patent Defense
+- sell, resell, sublicense, rent, lease, or commercially redistribute the Framework itself as a product;
+- sell or commercially redistribute a modified, forked, adapted, repackaged, or derivative version of the Framework as a standalone template, toolkit, library, framework, starter repository, hosted service, or substantially similar product;
+- offer paid access to the Framework itself or to a substantially equivalent derivative whose primary value is the Framework; or
+- remove or misrepresent copyright, license, or attribution notices included with the Framework.
 
-If you make any written claim that the software infringes or contributes to infringement of any patent, your patent license for the software granted under these terms ends immediately. If your company makes such a claim, your patent license ends immediately for work on behalf of your company.
+These restrictions do not prohibit commercial exploitation of original stories, games, films, books, comics, artwork, or other creative works produced with the Framework, provided the Framework itself is not being sold or commercially redistributed as the product.
 
-## Violations
+4. NO TRADEMARK RIGHTS
 
-The first time you are notified in writing that you have violated any of these terms, or done anything with the software not covered by your licenses, your licenses can nonetheless continue if you come into full compliance with these terms, and take practical steps to correct past violations, within 32 days of receiving notice.  Otherwise, all your licenses end immediately.
+This license grants no rights to names, logos, trademarks, service marks, or branding associated with the Writing Universe Template.
 
-## No Liability
+5. RESERVATION OF RIGHTS
 
-***As far as the law allows, the software comes as is, without any warranty or condition, and the licensor will not be liable to you for any damages arising out of these terms or the use or nature of the software, under any kind of legal claim.***
+All rights not expressly granted by this license are reserved. No implied licenses are granted.
 
-## Definitions
+6. TERMINATION
 
-The **licensor** is the individual or entity offering these terms, and the **software** is the software the licensor makes available under these terms.
+Rights granted under this license terminate automatically upon a material violation of these terms. Rights may be restored only by written permission from the copyright holder or by full cure accepted by the copyright holder.
 
-**You** refers to the individual or entity agreeing to these terms.
+7. DISCLAIMER
 
-**Your company** is any legal entity, sole proprietorship, or other kind of organization that you work for, plus all organizations that have control over, are under the control of, or are under common control with that organization.  **Control** means ownership of substantially all the assets of an entity, or the power to direct its management and policies by vote, contract, or otherwise.  Control can be direct or indirect.
+THE FRAMEWORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NONINFRINGEMENT. TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE AUTHORS AND COPYRIGHT HOLDERS ARE NOT LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE FRAMEWORK OR ITS USE.
 
-**Your licenses** are all the licenses granted to you for the software under these terms.
-
-**Use** means anything you do with the software requiring one of your licenses.
+This is a proprietary/source-available license and is not an open-source license.

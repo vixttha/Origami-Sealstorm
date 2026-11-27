@@ -1,0 +1,30 @@
+schema_version: '1.0'
+types:
+  SW: {type: storyworld, owner_domain: storyworld_core, default_path: 01-storyworld-core/, template: templates/00-storyworld.md}
+  LAW: {type: law, owner_domain: storyworld_core, default_path: 01-storyworld-core/, template: templates/01-law.md}
+  TERM: {type: term, owner_domain: storyworld_core, default_path: 01-storyworld-core/, template: templates/02-term.md}
+  COSM: {type: cosmology, owner_domain: storyworld_core, default_path: 01-storyworld-core/, template: templates/03-cosmology.md}
+  UNIV: {type: universe, owner_domain: continuities, default_path: 02-continuities/universes/, template: templates/04-universe.md}
+  CONT: {type: continuity, owner_domain: continuities, default_path: 02-continuities/continuities/, template: templates/05-continuity.md}
+  TL: {type: timeline, owner_domain: continuities, default_path: 02-continuities/timelines/, template: templates/06-timeline.md}
+  REALM: {type: realm, owner_domain: continuities, default_path: 02-continuities/realms/, template: templates/07-realm.md}
+  WORLD: {type: world, owner_domain: worldbuilding, default_path: 03-worldbuilding/worlds/, template: templates/08-world.md}
+  LOC: {type: location, owner_domain: worldbuilding, default_path: 03-worldbuilding/locations/, template: templates/09-location.md}
+  FAC: {type: faction, owner_domain: worldbuilding, default_path: 03-worldbuilding/factions/, template: templates/10-faction.md}
+  SPEC: {type: species, owner_domain: worldbuilding, default_path: 03-worldbuilding/species/, template: templates/11-species.md}
+  CULT: {type: culture, owner_domain: worldbuilding, default_path: 03-worldbuilding/cultures/, template: templates/12-culture.md}
+  SYS: {type: system, owner_domain: worldbuilding, default_path: 03-worldbuilding/systems/, template: templates/13-system.md}
+  TECH: {type: technology, owner_domain: worldbuilding, default_path: 03-worldbuilding/technology/, template: templates/14-technology.md}
+  RELIC: {type: relic, owner_domain: worldbuilding, default_path: 03-worldbuilding/relics/, template: templates/15-relic.md}
+  AETHER: {type: aetherial, owner_domain: worldbuilding, default_path: 03-worldbuilding/aetherial/, template: templates/16-aetherial.md}
+  CHAR: {type: character, owner_domain: characters, default_path: 04-characters/, template: templates/17-character.md}
+  REL: {type: relationship, owner_domain: characters, default_path: 04-characters/relationships/, template: templates/18-relationship.md}
+  EVENT: {type: event, owner_domain: events, default_path: 05-events/events/, template: templates/19-event.md}
+  ERA: {type: era, owner_domain: events, default_path: 05-events/eras/, template: templates/20-era.md}
+  STORY: {type: story, owner_domain: stories, default_path: 06-stories/, template: templates/21-story-bible.md}
+  ARC: {type: arc, owner_domain: stories, default_path: 06-stories/, template: templates/22-arc.md}
+  INST: {type: installment, owner_domain: stories, default_path: 06-stories/, template: templates/23-installment.md}
+  CROSS: {type: crossover, owner_domain: crossovers, default_path: 07-crossovers/, template: templates/24-crossover.md}
+  VIS: {type: visual_spec, owner_domain: visual_language, default_path: 10-visual-language/, template: templates/25-visual-spec.md}
+  OBJ: {type: object, owner_domain: worldbuilding, default_path: 03-worldbuilding/objects/, template: templates/26-object.md}
+  MAT: {type: material, owner_domain: worldbuilding, default_path: 03-worldbuilding/materials/, template: templates/27-material.md}

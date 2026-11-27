@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/writing-universe-template/storyworld.schema.json",
+  "title": "Storyworld Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "framework_version", "setup_required", "storyworld", "canon_version"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "framework_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "setup_required": {"type": "boolean"},
+    "storyworld": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "code", "description", "supports_multiple_universes"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9]{1,7}$"},
+        "description": {"type": "string", "minLength": 1},
+        "supports_multiple_universes": {"type": "boolean"}
+      }
+    },
+    "canon_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+  }
+}

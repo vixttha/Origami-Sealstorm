@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./schemas/storyworld.schema.json
+schema_version: "1.0"
+framework_version: "1.0.0"
+setup_required: true
+
+storyworld:
+  name: REPLACE_ME
+  code: SETME
+  description: REPLACE_ME
+  supports_multiple_universes: true
+
+canon_version: "0.0.0"
+
+# First-time setup:
+# 1. Replace name, code, and description.
+# 2. Use one stable 2-8 character uppercase storyworld code.
+# 3. Create the Storyworld Source-of-Truth from templates/00-storyworld.md.
+# 4. Register it in CANON-REGISTRY.yaml.
+# 5. Set setup_required: false only after placeholders in active content are removed.

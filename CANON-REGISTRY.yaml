@@ -1,0 +1,5 @@
+# yaml-language-server: $schema=./schemas/canon-registry.schema.json
+schema_version: "1.0"
+framework_version: "1.0.0"
+storyworld_code: SETME
+entries: {}

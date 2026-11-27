@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/writing-universe-template/canon-registry.schema.json",
+  "title": "Storyworld Canon Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "framework_version",
+    "storyworld_code",
+    "entries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "framework_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "storyworld_code": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]{1,7}$"
+    },
+    "entries": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/canonId"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "canonId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]{1,7}-[A-Z][A-Z0-9]{0,11}-[0-9]{4}$"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "container"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "storyworld",
+            "universe",
+            "continuity",
+            "timeline",
+            "realm",
+            "story",
+            "installment"
+          ]
+        },
+        "container": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/canonId"
+            }
+          ]
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "title",
+        "status",
+        "scope",
+        "owner_domain",
+        "owner_path",
+        "source_of_truth",
+        "version",
+        "dependencies",
+        "variant_of",
+        "supersedes",
+        "superseded_by",
+        "aliases",
+        "tags",
+        "last_reviewed"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "LOCKED_CANON",
+            "CANON",
+            "WORKING",
+            "PROPOSAL",
+            "SUPERSEDED",
+            "REJECTED"
+          ]
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "owner_domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner_path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!.*(?:^|/)\\.\\.?/)(?!.*[\\\\:\\x00])(?!.*//)[^/]+(?:/[^/]+)*\\.md$"
+        },
+        "source_of_truth": {
+          "const": true
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "dependencies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/canonId"
+          }
+        },
+        "cross_scope_dependencies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/canonId"
+          }
+        },
+        "variant_of": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/canonId"
+            }
+          ]
+        },
+        "supersedes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/canonId"
+          }
+        },
+        "superseded_by": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/canonId"
+              }
+            }
+          ]
+        },
+        "aliases": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "last_reviewed": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
