@@ -1,0 +1,87 @@
+{
+  "initial_category": "emblem",
+  "art_style": "Cut-paper geometric construction with restrained sumi-e and seal-print accents; preserve the one-color silhouette.",
+  "category_fit": {
+    "emblem": {
+      "fits": true,
+      "reason": "Seal and origami motifs form a compact game emblem."
+    },
+    "abstract mark": {
+      "fits": true,
+      "reason": "Motion and fold geometry suggest elemental transformation."
+    },
+    "pictorial mark": {
+      "fits": true,
+      "reason": "A folded creature or tower can signal the genre."
+    },
+    "wordmark": {
+      "fits": true,
+      "reason": "A complementary readable title is useful in the header, but not the lead small icon."
+    },
+    "mascot": {
+      "fits": false,
+      "reason": "A single creature risks narrowing a five-element tower-defense identity."
+    }
+  },
+  "concepts": [
+    {
+      "id": "FOLD-SEAL",
+      "category": "emblem",
+      "art_style": "Geometric folded-paper silhouette and restrained carved seal impression",
+      "example": "A single angular folded-paper core with a small square negative-space seal, enclosed by an incomplete circular ink impression; one crease breaks the ring to suggest motion.",
+      "rationale": "Directly joins origami, seals and elemental transformation. A simplified silhouette can survive at favicon size. Avoid fine brush texture in small marks.",
+      "scores": {
+        "brand_fit": 5,
+        "artistic_character": 5,
+        "distinctiveness": 4,
+        "versatility": 5
+      }
+    },
+    {
+      "id": "STORM-FOLD",
+      "category": "abstract mark",
+      "art_style": "Angular paper planes arranged in a spiral",
+      "example": "Three broad paper facets pivot around a central void to form a compact rotating storm; crease geometry implies a folded paper object rather than a generic wind icon.",
+      "rationale": "Expresses motion and transformation, with strong one-color performance. The seal motif may be less immediate.",
+      "scores": {
+        "brand_fit": 4,
+        "artistic_character": 4,
+        "distinctiveness": 4,
+        "versatility": 5
+      }
+    },
+    {
+      "id": "HANKO-BASTION",
+      "category": "pictorial mark",
+      "art_style": "Cut-paper fortress silhouette in a restrained stamp frame",
+      "example": "A folded tower rises from a small square seal frame with one folded corner and two broad defensive tiers.",
+      "rationale": "Communicates tower defense instantly, but could resemble a generic castle or stamp; fine details must be avoided.",
+      "scores": {
+        "brand_fit": 5,
+        "artistic_character": 4,
+        "distinctiveness": 3,
+        "versatility": 4
+      }
+    },
+    {
+      "id": "CRANE-CREST",
+      "category": "pictorial mark",
+      "art_style": "Origami crane constructed from a few large angular facets",
+      "example": "A soaring crane with an ink-ring trail, its folded wings forming an abstract S-shaped motion.",
+      "rationale": "Strong paper-craft symbolism but may imply an air-only game and resemble familiar origami crane marks.",
+      "scores": {
+        "brand_fit": 4,
+        "artistic_character": 5,
+        "distinctiveness": 3,
+        "versatility": 4
+      }
+    }
+  ],
+  "selected_concept": "FOLD-SEAL",
+  "selection_reason": "Highest provisional weighted score: combines fold and seal symbolism with clear one-color silhouette; agent recommendation only, awaiting owner review.",
+  "names": {
+    "product": "Origami: Sealstorm",
+    "wordmark": "Origami: Sealstorm"
+  },
+  "confirmation": null
+}
