@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000057",
+  "title": "Expandable elemental universe and shared traditions",
+  "summary": "Explore Origami: Sealstorm as a larger fictional setting in which the existing five colors or elemental traditions can differ, disagree, fight, cooperate and unite around shared needs. The starting roster may expand through new independent elements, derived affinities, hybrid forms and fusion techniques, without treating existing pair reactions as permanent fusions. Keep faction identities, cultures, relations, world history, additional elements and expansion media undecided. This is an optional future idea only, not an approved direction, implementation task or milestone change.",
+  "kind": "product",
+  "origin": {
+    "created_by": "joint",
+    "source": "Owner request in OS planning, 2026-11-27: explore a larger elemental setting and potential additional elements/fusions; explicitly not locked. Assistant organized possible models and examples."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "worldbuilding",
+    "elemental-expansion",
+    "narrative"
+  ],
+  "benefits": [
+    "Preserves room for a larger original universe without changing the current tower-defense foundation.",
+    "Makes conflict, cooperation and fusion plausible sources of future stories and gameplay.",
+    "Keeps new elements and hybrid forms independently reviewable."
+  ],
+  "risks": [
+    "Prematurely treating five colors as fixed nations or moral alignments could flatten the setting.",
+    "Combinatorial growth and new elements may harm balance or readability.",
+    "Lore speculation must not be confused with implemented mechanics or approved canon.",
+    "Scope expansion could distract from the current foundation milestone."
+  ],
+  "related_ideas": [
+    "IDEA-000001",
+    "IDEA-000004",
+    "IDEA-000017",
+    "IDEA-000018",
+    "IDEA-000046"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Revision-pinned exploratory universe record, not approved canon or implementation evidence.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "a7c773537ee75609232a4fc64d999dcc4379c74a",
+      "path": "01-storyworld-core/storyworld.md"
+    },
+    {
+      "relation": "context",
+      "claim": "Revision-pinned exploratory universe record, not approved canon or implementation evidence.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "a7c773537ee75609232a4fc64d999dcc4379c74a",
+      "path": "03-worldbuilding/EXPLORATION.md"
+    },
+    {
+      "relation": "context",
+      "claim": "Revision-pinned exploratory universe record, not approved canon or implementation evidence.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "a7c773537ee75609232a4fc64d999dcc4379c74a",
+      "path": "03-worldbuilding/systems/reactions-and-fusions.md"
+    }
+  ]
+}
