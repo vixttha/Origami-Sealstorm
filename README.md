@@ -1,70 +1,41 @@
-# Origami: Sealstorm
+# Version-Issues-Hub
 
-***Fold. Combine. Conquer.***
+Standalone VIB branch. Do not merge into the product. Start with [AGENTS.md](AGENTS.md) and [WORKFLOW.md](WORKFLOW.md). The installed package pin and target identity are in [vib-install.json](vib-install.json). The [ledger](ledger/issue-versions.json) and [handoff](ledger/handoff.json) belong to the adopter.
 
-An original tower defense game combining Japanese paper-craft artistry, transformative elemental towers, and strategic combat.
+Run `python -m tools.session --target OWNER/REPO inspect` in an authorized cloud host to recover the current state. Merge enforcement is disabled unless separately configured and proven by the owner.
 
-## Overview
+Optional owner-enabled gate: [GATE.md](GATE.md). The candidate is not live enforcement until the disposable ruleset pilot passes.
 
-Origami: Sealstorm takes place across enchanted paper scrolls, where elemental seals bring folded defenses to life.
+**Default: Standard VIB.** No GitHub App, rulesets, branch protection, database or external service required. Use [STANDARD.md](STANDARD.md) to review product evidence. Optional hard enforcement is separate and does not block ordinary adoption.
 
-Players strategically place, evolve, and combine origami towers to defend their sanctuaries against increasingly powerful waves of folded creatures.
+Owner-controlled [upgrade and retirement preparation](LIFECYCLE.md) is dry-run-first; never automatically delete a branch.
 
-Every fold introduces new possibilities. Every elemental combination changes the battlefield.
+## Owner-approved engineering ecosystem laws
 
-## Core Elements
+Decision ENGINEERING-ECOSYSTEM-LAWS-001 (2026-11-24). Mission: Build a toolkit that gives compatible LLM agents a structured engineering environment, rather than building another AI model.
 
-| Element | Identity | Combat Specialty |
-|---|---|---|
-| Air | Kaze | Homing attacks, piercing, and displacement |
-| Fire | Kagura | Explosions, burning, and area damage |
-| Water | Mizu | Ricochets, whirlpools, and freezing |
-| Earth | Tsuchi | Heavy impacts, armor breaking, and shattering |
-| Ink | Sumi | Crowd control, staining, and damage linking |
+<!-- engineering-laws:start -->
+1. **Independence:** Every tool must remain independently installable, usable, versioned and maintained.
+2. **Composability:** Installing additional tools expands the agent's capabilities without creating mandatory dependencies.
+3. **Portability:** No mandatory AI provider, model, agent harness or paid execution service.
+4. **Persistence:** Project knowledge, decisions, progress and evidence survive the termination of an AI session.
+5. **Verification:** Development claims must be supported by reproducible, revision-bound evidence.
+6. **Owner authority:** The human retains control over scope, architectural decisions, integration and releases.
+<!-- engineering-laws:end -->
 
-## Planned Features
+Remain standalone. Other tools are optional; their absence must not block normal operation. Preserve project-local authority and evidence; never automatically install, merge, synchronize or write to another tool's branch. No mandatory seventh coordinator, paid service or AI provider. Existing product scope remains authoritative. Change these laws only by explicit owner approval.
 
-- Five unique elemental tower families.
-- Forty transformative upgrade tiers.
-- Ten elemental combination reactions.
-- Ten advanced tower evolutions.
-- Six layered origami enemy archetypes.
-- Three handcrafted scroll battlefields.
-- Three difficulty modes.
-- Infinite Scroll endless survival.
-- Procedural 2D artwork, animations, and combat effects.
-- Procedural audio and persistent player statistics.
+## Agent capability discovery — v1
 
-## Design Philosophy
+<!-- agent-capability:v1
+{"schema_version":1,"id":"vib","branch":"Version-Issues-Hub","entrypoint":"AGENTS.md","scope":"Issue-version checkpoints, handoffs and owner decisions","required_ecosystem_tools":[],"authority":"owner","discovery":"read-only","versioning":"independent"}
+-->
 
-- Mechanical depth over unnecessary complexity.
-- Meaningful upgrades that transform combat behavior.
-- Elemental combinations that reward experimentation.
-- A distinctive origami and ink visual identity.
-- Accessible gameplay with strategic replayability.
-- Performance, reliability, and reproducible verification.
+A compatible agent may enumerate the target repository's branch refs, resolve this branch to a commit, and read its entry point at that exact commit. Read-only discovery confers no execution, write, integration or release authority. If this branch or marker is absent, the tool is absent or legacy/unverified; continue independently. Check the target's own instructions and owner scope before any action. The marker describes a capability, not a required registry or package version.
 
-## Proposed Technology Stack
+Installation convention: human or agent selects a reviewed exact source SHA, checks the dedicated target branch and collisions, follows this product's own installation guide, and records source/target SHA and preserved product state. Never merge a template workspace wholesale into product source. Existing installations require explicit reviewed upgrades; preserve local records and prior receipts. Optional evidence links do not authorize writes. No mandatory coordinator or other ecosystem tool.
 
-| Technology | Purpose |
-|---|---|
-| TypeScript | Game logic and simulation |
-| React | User interface |
-| Vite | Development and production builds |
-| HTML5 Canvas | 2D rendering and animation |
-| Tailwind CSS | Interface styling |
-| Web Audio API | Procedural sound effects |
-| Playwright | Automated browser verification |
-| GitHub Actions | Continuous integration and testing |
 
-## Development Status
+## Licensing
 
-Origami: Sealstorm is currently in its experimental foundation stage.
-
-Multiple independently generated prototypes are being evaluated to establish the official game architecture. Features and implementation details remain subject to testing, refinement, and approval.
-
----
-
-**Origami: Sealstorm**
-
-*Fold. Combine. Conquer.*
+This candidate carries VIB-LICENSE.md and VIB-NOTICE.md in its standalone package. Read both before use. The original license text is unchanged, and the supplemental permission covers authorized unchanged dedicated-branch installations. Existing MIT and third-party rights remain intact. This candidate is not the stable v0.0.1 release; owner approval and verified source selection remain required for installation. No mandatory license server or paid execution.
