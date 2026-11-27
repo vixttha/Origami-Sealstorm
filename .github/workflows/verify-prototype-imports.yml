@@ -1,0 +1,99 @@
+name: Original prototype import verification
+on:
+  push:
+    branches: [prototype/gemini-4-argon-high]
+    paths: ['.github/workflows/verify-prototype-imports.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Gemini 4 Neon High
+            sha: 26f9dc68bcf70934d26081ec40625c3fff1bac83
+            tree: 7920af8f41167ff12ee41e9c9b5ae8680cbd561b
+            files: 4
+            kind: html
+          - name: Gemini 4 Argon High
+            sha: 0f153b357e7786076495368c61b901f80d170406
+            tree: fdd6449b0d6ae2fd6da799f259969cc74a882959
+            files: 24
+            kind: npm
+          - name: Claude Sonnet 5.5 High
+            sha: fa10c32339ad3a97d4bb430b8e0408625037b774
+            tree: 281fd2be70fc7a7a3857a8e810149cfe1c950dee
+            files: 27
+            kind: npm
+          - name: GLM 5.3 High
+            sha: 55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1
+            tree: c852d2aa9bf53649b11d75987c34ec3000b7fc16
+            files: 47
+            kind: bun
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.sha }}
+          persist-credentials: false
+      - name: Verify exact source commit and tree
+        env:
+          EXPECTED_SHA: ${{ matrix.sha }}
+          EXPECTED_TREE: ${{ matrix.tree }}
+          EXPECTED_FILES: ${{ matrix.files }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          test "$(git rev-parse HEAD^{tree})" = "$EXPECTED_TREE"
+          test "$(git ls-files | wc -l)" -eq "$EXPECTED_FILES"
+          git diff --exit-code HEAD
+          test -f index.html
+          echo "Verified $EXPECTED_SHA / $EXPECTED_TREE"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check standalone HTML inline JavaScript
+        if: matrix.kind == 'html'
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          import pathlib
+          class Scripts(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.active = False
+                  self.parts = []
+              def handle_starttag(self, tag, attrs):
+                  if tag == "script" and not dict(attrs).get("src"):
+                      self.active = True
+              def handle_endtag(self, tag):
+                  if tag == "script":
+                      self.active = False
+              def handle_data(self, data):
+                  if self.active:
+                      self.parts.append(data)
+          parser = Scripts()
+          parser.feed(pathlib.Path("index.html").read_text())
+          assert parser.parts, "No inline script"
+          pathlib.Path("/tmp/prototype.js").write_text("\n".join(parser.parts))
+          PY
+          node --check /tmp/prototype.js
+      - name: Build npm prototype from lockfile
+        if: matrix.kind == 'npm'
+        run: |
+          npm ci --ignore-scripts
+          npm run build
+          test -s dist/index.html
+      - uses: oven-sh/setup-bun@v2
+        if: matrix.kind == 'bun'
+        with:
+          bun-version: '1.3'
+      - name: Build Bun prototype from lockfile
+        if: matrix.kind == 'bun'
+        run: |
+          bun install --frozen-lockfile --ignore-scripts
+          bun run build
+          test -s dist/index.html
