@@ -1,0 +1,95 @@
+name: Frozen prototype browser audit
+on:
+  push:
+    branches: [audit/prototype-playtest]
+permissions:
+  contents: read
+jobs:
+  playtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - game: neon
+            sha: 26f9dc68bcf70934d26081ec40625c3fff1bac83
+          - game: argon
+            sha: bbffce688ab34422145c006ed7c85a0ff3bea8f2
+          - game: claude
+            sha: 59c1c320b92709bc057367f2cbb2fe59e97bf5be
+          - game: glm
+            sha: 84c78f4f3e383ab6aacc2839f62a26d771713023
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.sha }}
+          path: game
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        if: matrix.game == 'glm'
+        with:
+          bun-version: '1.3.14'
+      - name: Verify frozen revision and build
+        env:
+          EXPECTED: ${{ matrix.sha }}
+          GAME: ${{ matrix.game }}
+        run: |
+          mkdir -p evidence
+          cd game
+          test "$(git rev-parse HEAD)" = "$EXPECTED"
+          test -z "$(git status --porcelain)"
+          echo "$EXPECTED" | tee ../evidence/source-sha.txt
+          case "$GAME" in
+            neon) mkdir -p dist; cp index.html dist/index.html;;
+            glm)
+              bun install --frozen-lockfile --ignore-scripts
+              set +e
+              bun run build 2>&1 | tee ../evidence/build.log
+              rc=${PIPESTATUS[0]}
+              set -e
+              echo "$rc" > ../evidence/build-exit.txt
+              if [ "$rc" != 0 ]; then
+                echo "Typecheck/build failed; testing separate fresh Vite bundle only"
+                bun x --no-install vite build --outDir audit-dist
+              else
+                cp -r dist audit-dist
+              fi
+              ;;
+            *) npm ci --ignore-scripts; npm run build 2>&1 | tee ../evidence/build.log;;
+          esac
+          git diff --exit-code
+      - name: Install browser harness
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.58.2
+          npx playwright install chromium --with-deps
+      - name: Exercise game in real browser
+        env:
+          GAME: ${{ matrix.game }}
+        run: |
+          if [ "$GAME" = glm ]; then dir=game/audit-dist; else dir=game/dist; fi
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory "$dir" > evidence/server.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" || true' EXIT
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          node audit/playtest.mjs
+      - name: GLM existing map checks
+        if: always() && matrix.game == 'glm'
+        working-directory: game
+        run: bun x --no-install tsx scripts/check-maps.ts
+      - name: Retain evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playtest-${{ matrix.game }}
+          path: evidence/
+          retention-days: 7
+      - name: Preserve build failure status
+        if: always() && matrix.game == 'glm'
+        run: test "$(cat evidence/build-exit.txt)" = 0
