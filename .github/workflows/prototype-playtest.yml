@@ -78,7 +78,7 @@ jobs:
           pid=$!
           trap 'kill "$pid" || true' EXIT
           for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
-          node audit/playtest.mjs
+          node audit/extended-playtest.mjs
       - name: GLM existing map checks
         if: always() && matrix.game == 'glm'
         working-directory: game
