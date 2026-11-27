@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000003",
+  "title": "Ten elemental reactions",
+  "summary": "Proposed official-game capability derived from the shared OS design; prototype presence is not production completion.",
+  "kind": "capability",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000018",
+    "IDEA-000019",
+    "IDEA-000020",
+    "IDEA-000021",
+    "IDEA-000022",
+    "IDEA-000023",
+    "IDEA-000024",
+    "IDEA-000025",
+    "IDEA-000026",
+    "IDEA-000027",
+    "IDEA-000028"
+  ],
+  "acceptance_criteria": [
+    "Each unordered element pair has a distinct, testable reaction and controlled trigger rules.",
+    "Owner-approved official implementation and exact-revision validation evidence are required before promotion."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "Shared planned design in the prototype README; no delivery claim.",
+      "source_sha": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "source_path": "README.md",
+      "receipt": "https://github.com/vixttha/Origami-Sealstorm/blob/55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1/README.md"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

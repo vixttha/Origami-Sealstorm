@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000055",
+  "title": "Save resilience and version migration",
+  "summary": "Investigate corrupt local storage, schema evolution, reset confirmation and recovery without requiring a server.",
+  "kind": "research",
+  "origin": {
+    "created_by": "assistant",
+    "source": "2026-11-27 OS catalog audit; new recommendation, not an owner decision."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "engineering"
+  ],
+  "benefits": [
+    "Preserves the engineering design for explicit review and traceability."
+  ],
+  "risks": [
+    "Requires owner scope review before implementation."
+  ],
+  "related_ideas": [
+    "IDEA-000045",
+    "IDEA-000048"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "fa10c32339ad3a97d4bb430b8e0408625037b774",
+      "path": "src/lib/storage.ts"
+    }
+  ]
+}

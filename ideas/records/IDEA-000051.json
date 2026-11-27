@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000051",
+  "title": "Deterministic simulation and replay tests",
+  "summary": "Investigate seeded wave generation, fixed-time updates and repeatable input sequences to make balance and regression tests reproducible.",
+  "kind": "research",
+  "origin": {
+    "created_by": "assistant",
+    "source": "2026-11-27 OS catalog audit; new recommendation, not an owner decision."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "engineering"
+  ],
+  "benefits": [
+    "Preserves the engineering design for explicit review and traceability."
+  ],
+  "risks": [
+    "Requires owner scope review before implementation."
+  ],
+  "related_ideas": [
+    "IDEA-000036",
+    "IDEA-000037",
+    "IDEA-000049"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "src/lib/engine.ts"
+    },
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "src/lib/waves.ts"
+    }
+  ]
+}

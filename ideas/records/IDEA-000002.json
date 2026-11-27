@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000002",
+  "title": "Four-model benchmark preservation",
+  "summary": "Retain independent Sonnet, Argon, Neon and GLM prototype snapshots as comparative evidence; preserve original exports and separate repairs from originals.",
+  "kind": "research",
+  "origin": {
+    "created_by": "imported",
+    "source": "OS shared design recovered from project discussion and revision-pinned prototype evidence; not an official implementation decision."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "benchmark"
+  ],
+  "benefits": [
+    "Preserves the benchmark design for explicit review and traceability."
+  ],
+  "risks": [
+    "Prototype differences or balance assumptions require reconciliation before official adoption."
+  ],
+  "related_ideas": [
+    "IDEA-000001"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "fa10c32339ad3a97d4bb430b8e0408625037b774",
+      "path": "PROTOTYPE.md"
+    },
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "0f153b357e7786076495368c61b901f80d170406",
+      "path": "PROTOTYPE.md"
+    },
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "26f9dc68bcf70934d26081ec40625c3fff1bac83",
+      "path": "PROTOTYPE.md"
+    },
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "PROTOTYPE.md"
+    }
+  ]
+}

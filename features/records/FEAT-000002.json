@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000002",
+  "title": "Ten upgrade paths and forty tiers",
+  "summary": "Proposed official-game capability derived from the shared OS design; prototype presence is not production completion.",
+  "kind": "capability",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000005",
+    "IDEA-000006",
+    "IDEA-000007",
+    "IDEA-000008",
+    "IDEA-000009",
+    "IDEA-000010",
+    "IDEA-000011",
+    "IDEA-000012",
+    "IDEA-000013",
+    "IDEA-000014",
+    "IDEA-000015",
+    "IDEA-000016"
+  ],
+  "acceptance_criteria": [
+    "All ten four-tier paths apply their intended changes, including tier-two transformations and tier-four apex behavior; crosspath rules are explicit.",
+    "Owner-approved official implementation and exact-revision validation evidence are required before promotion."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "Shared planned design in the prototype README; no delivery claim.",
+      "source_sha": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "source_path": "README.md",
+      "receipt": "https://github.com/vixttha/Origami-Sealstorm/blob/55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1/README.md"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

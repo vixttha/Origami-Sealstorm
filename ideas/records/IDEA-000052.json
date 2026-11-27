@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000052",
+  "title": "Game balance and economy test matrix",
+  "summary": "Measure each tower path, all ten reactions, map difficulty, economy and enemy counterplay for unwinnable or dominant strategies before official acceptance.",
+  "kind": "research",
+  "origin": {
+    "created_by": "assistant",
+    "source": "2026-11-27 OS catalog audit; new recommendation, not an owner decision."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "engineering"
+  ],
+  "benefits": [
+    "Preserves the engineering design for explicit review and traceability."
+  ],
+  "risks": [
+    "Requires owner scope review before implementation."
+  ],
+  "related_ideas": [
+    "IDEA-000005",
+    "IDEA-000018",
+    "IDEA-000029",
+    "IDEA-000035",
+    "IDEA-000039"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "src/lib/constants.ts"
+    },
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "fa10c32339ad3a97d4bb430b8e0408625037b774",
+      "path": "src/lib/constants.ts"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000041",
+  "title": "Placement preview and resonance lines",
+  "summary": "Preview build legality, tower range and resonance links before placement; ensure track and tower collision rules are clear.",
+  "kind": "feature",
+  "origin": {
+    "created_by": "imported",
+    "source": "OS shared design recovered from project discussion and revision-pinned prototype evidence; not an official implementation decision."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "interface"
+  ],
+  "benefits": [
+    "Preserves the interface design for explicit review and traceability."
+  ],
+  "risks": [
+    "Prototype differences or balance assumptions require reconciliation before official adoption."
+  ],
+  "related_ideas": [
+    "IDEA-000018",
+    "IDEA-000032",
+    "IDEA-000033",
+    "IDEA-000034"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "src/components/TitleScreen.tsx"
+    }
+  ]
+}

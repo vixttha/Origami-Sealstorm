@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000001",
+  "title": "Five elemental tower families",
+  "summary": "Proposed official-game capability derived from the shared OS design; prototype presence is not production completion.",
+  "kind": "capability",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000004",
+    "IDEA-000017",
+    "IDEA-000040"
+  ],
+  "acceptance_criteria": [
+    "All five families are selectable and have distinct attacks, statuses and target behavior.",
+    "Owner-approved official implementation and exact-revision validation evidence are required before promotion."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "Shared planned design in the prototype README; no delivery claim.",
+      "source_sha": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "source_path": "README.md",
+      "receipt": "https://github.com/vixttha/Origami-Sealstorm/blob/55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1/README.md"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

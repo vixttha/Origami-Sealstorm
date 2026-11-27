@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000032",
+  "title": "Winding Calligraphy River",
+  "summary": "Single winding scroll battlefield as a clear introductory layout.",
+  "kind": "feature",
+  "origin": {
+    "created_by": "imported",
+    "source": "OS shared design recovered from project discussion and revision-pinned prototype evidence; not an official implementation decision."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "maps"
+  ],
+  "benefits": [
+    "Preserves the maps design for explicit review and traceability."
+  ],
+  "risks": [
+    "Prototype differences or balance assumptions require reconciliation before official adoption."
+  ],
+  "related_ideas": [
+    "IDEA-000001"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "src/lib/maps.ts"
+    }
+  ]
+}

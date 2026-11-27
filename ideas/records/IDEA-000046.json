@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000046",
+  "title": "Origami and ink-scroll art direction",
+  "summary": "Procedural two-dimensional paper folds, washi textures, brush strokes, elemental colors and evolving silhouettes distinguish gameplay states.",
+  "kind": "feature",
+  "origin": {
+    "created_by": "imported",
+    "source": "OS shared design recovered from project discussion and revision-pinned prototype evidence; not an official implementation decision."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "art"
+  ],
+  "benefits": [
+    "Preserves the art design for explicit review and traceability."
+  ],
+  "risks": [
+    "Prototype differences or balance assumptions require reconciliation before official adoption."
+  ],
+  "related_ideas": [
+    "IDEA-000001",
+    "IDEA-000005"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Prototype README lists the shared game design and planned scope.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "README.md"
+    },
+    {
+      "relation": "context",
+      "claim": "Prototype design reference; not official implementation or verified behavior.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "src/lib/renderer.ts"
+    }
+  ]
+}

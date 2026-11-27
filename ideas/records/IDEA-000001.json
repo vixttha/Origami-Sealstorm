@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000001",
+  "title": "Origami: Sealstorm identity",
+  "summary": "Develop the experimental Runic Origami and Ink concept into an original tower-defense game under the locked name Origami: Sealstorm and slogan Fold. Combine. Conquer.",
+  "kind": "product",
+  "origin": {
+    "created_by": "imported",
+    "source": "OS shared design recovered from project discussion and revision-pinned prototype evidence; not an official implementation decision."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "product"
+  ],
+  "benefits": [
+    "Preserves the product design for explicit review and traceability."
+  ],
+  "risks": [
+    "Prototype differences or balance assumptions require reconciliation before official adoption."
+  ],
+  "related_ideas": [],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Prototype README lists the shared game design and planned scope.",
+      "repository": "vixttha/Origami-Sealstorm",
+      "commit": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "path": "README.md"
+    }
+  ]
+}

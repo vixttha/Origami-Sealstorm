@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000012",
+  "title": "Browser-first game foundation",
+  "summary": "Proposed official-game capability derived from the shared OS design; prototype presence is not production completion.",
+  "kind": "workflow",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000002",
+    "IDEA-000003",
+    "IDEA-000048",
+    "IDEA-000049",
+    "IDEA-000050"
+  ],
+  "acceptance_criteria": [
+    "An owner-approved architecture is selected using preserved prototype evidence, and builds and checks run on free public runners.",
+    "Owner-approved official implementation and exact-revision validation evidence are required before promotion."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "Shared planned design in the prototype README; no delivery claim.",
+      "source_sha": "55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1",
+      "source_path": "README.md",
+      "receipt": "https://github.com/vixttha/Origami-Sealstorm/blob/55a3bfd4fcaee5c3260bd67993fb64ac9fd0d4e1/README.md"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}
