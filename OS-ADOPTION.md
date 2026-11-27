@@ -1,0 +1,5 @@
+# OS creator-project adoption
+
+The writing-first v1.0.0 preview framework was installed as a fresh, isolated branch tree for this genuine original game project. The clean starter included 97 of 99 preview files, omitting the two host-specific .github files. Framework license and scope retained; private source history, internal audits, developer discussion, unrelated canon, runtime tools and workflows not imported. This is not an official template distribution, product release, or endorsement. Original OS fiction is separate from reusable framework rights; no new content license is declared.
+
+The starter commit precedes the populated draft commit. Every registered OS record has PROPOSAL status; canon_version 0.0.0. No owner canon decisions recorded. The initial gameplay evidence is drawn from existing OS repository files. The owner authorized exploration, not adoption of the proposed details. No product code changed. Manual structural checks only; optional runtime validators were not included or executed.

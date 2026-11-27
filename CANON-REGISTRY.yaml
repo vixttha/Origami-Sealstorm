@@ -1,5 +1,333 @@
 # yaml-language-server: $schema=./schemas/canon-registry.schema.json
-schema_version: "1.0"
-framework_version: "1.0.0"
-storyworld_code: SETME
-entries: {}
+{
+  "schema_version": "1.0",
+  "framework_version": "1.0.0",
+  "storyworld_code": "OS",
+  "entries": {
+    "OS-SW-0001": {
+      "title": "Origami: Sealstorm — exploratory storyworld",
+      "type": "storyworld",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "storyworld",
+        "container": null
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "storyworld_core",
+      "dependencies": [],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "01-storyworld-core/storyworld.md"
+    },
+    "OS-UNIV-0001": {
+      "title": "Sealstorm setting — unnamed universe",
+      "type": "universe",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "storyworld",
+        "container": null
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "continuities",
+      "dependencies": [
+        "OS-SW-0001"
+      ],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "02-continuities/universes/origami-universe.md"
+    },
+    "OS-FAC-0001": {
+      "title": "Air / Kaze — possible tradition",
+      "type": "faction",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [
+        "OS-SYS-0001"
+      ],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/factions/air.md"
+    },
+    "OS-FAC-0002": {
+      "title": "Fire / Kagura — possible tradition",
+      "type": "faction",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [
+        "OS-SYS-0001"
+      ],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/factions/fire.md"
+    },
+    "OS-FAC-0003": {
+      "title": "Water / Mizu — possible tradition",
+      "type": "faction",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [
+        "OS-SYS-0001"
+      ],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/factions/water.md"
+    },
+    "OS-FAC-0004": {
+      "title": "Earth / Tsuchi — possible tradition",
+      "type": "faction",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [
+        "OS-SYS-0001"
+      ],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/factions/earth.md"
+    },
+    "OS-FAC-0005": {
+      "title": "Ink / Sumi — possible tradition",
+      "type": "faction",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [
+        "OS-SYS-0001"
+      ],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/factions/ink.md"
+    },
+    "OS-SYS-0001": {
+      "title": "Elemental seals — five starting affinities",
+      "type": "system",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/systems/elemental-seals.md"
+    },
+    "OS-SYS-0002": {
+      "title": "Elemental reactions, fusions and future discoveries",
+      "type": "system",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [
+        "OS-SYS-0001"
+      ],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/systems/reactions-and-fusions.md"
+    },
+    "OS-LOC-0001": {
+      "title": "Winding Calligraphy River",
+      "type": "location",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/locations/calligraphy-river.md"
+    },
+    "OS-LOC-0002": {
+      "title": "Twin-Bridge Crossover",
+      "type": "location",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/locations/twin-bridge.md"
+    },
+    "OS-LOC-0003": {
+      "title": "The Spiral Shrine",
+      "type": "location",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "worldbuilding",
+      "dependencies": [],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "03-worldbuilding/locations/spiral-shrine.md"
+    },
+    "OS-STORY-0001": {
+      "title": "Origami: Sealstorm — initial game story exploration",
+      "type": "story",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "universe",
+        "container": "OS-UNIV-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "stories",
+      "dependencies": [
+        "OS-SYS-0001",
+        "OS-SYS-0002"
+      ],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "06-stories/sealstorm-game.md"
+    },
+    "OS-VIS-0001": {
+      "title": "Paper and ink visual language",
+      "type": "visual_spec",
+      "status": "PROPOSAL",
+      "scope": {
+        "level": "story",
+        "container": "OS-STORY-0001"
+      },
+      "version": "0.1.0",
+      "source_of_truth": true,
+      "owner_domain": "visual_language",
+      "dependencies": [],
+      "variant_of": null,
+      "supersedes": [],
+      "superseded_by": null,
+      "aliases": [],
+      "tags": [
+        "exploratory"
+      ],
+      "last_reviewed": null,
+      "owner_path": "10-visual-language/origami-paper-ink.md"
+    }
+  }
+}
