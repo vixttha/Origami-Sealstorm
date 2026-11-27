@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Runic Origami &amp; Ink</title>
+<style>
+  :root {
+    --washi: #F4EFE6;
+    --parchment: #EFE7D8;
+    --parchment-deep: #E5DAC6;
+    --desk: #DFD4BF;
+    --sumi: #1A1918;
+    --ink-border: #2B2927;
+    --muted: #5C5552;
+    --hanko: #C1121F;
+    --hanko-dark: #9B0E19;
+    --jade: #2A9D8F;
+    --gold: #D4AF37;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--desk);
+    color: var(--sumi);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overflow-x: hidden;
+  }
+  .serif { font-family: Georgia, Cambria, "Times New Roman", serif; }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    color: inherit;
+    transition: background-color 0.14s ease, border-color 0.14s ease, transform 0.1s ease;
+  }
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.52;
+  }
+  .hidden { display: none !important; }
+
+  /* Title Screen */
+  #title-screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: radial-gradient(circle at 50% 40%, #F4EFE6 0%, #E5DAC6 70%, #D9CCB3 100%);
+  }
+  .title-card {
+    width: 100%;
+    max-width: 1020px;
+    background: var(--washi);
+    border: 2px solid var(--ink-border);
+    box-shadow: 0 18px 44px rgba(26, 25, 24, 0.18);
+    padding: 26px 30px;
+  }
+  .title-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    border-bottom: 2px solid rgba(43, 41, 39, 0.2);
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hanko-badge {
+    width: 44px;
+    height: 44px;
+    background: var(--hanko);
+    color: var(--washi);
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 2px rgba(244, 239, 230, 0.55);
+  }
+  .title-h1 {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .title-sub {
+    margin: 4px 0 0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+  .btn-outline {
+    background: var(--parchment);
+    border: 1.5px solid var(--ink-border);
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-outline:hover { background: #FAF6EE; }
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 780px) {
+    .card-grid { grid-template-columns: 1fr; }
+  }
+  .select-card {
+    text-align: left;
+    background: rgba(239, 231, 216, 0.65);
+    border: 2px solid rgba(43, 41, 39, 0.28);
+    padding: 14px 16px;
+  }
+  .select-card:hover { border-color: var(--ink-border); }
+  .select-card.active {
+    border-color: var(--hanko);
+    background: #FAF6EE;
+    box-shadow: 0 6px 16px rgba(193, 18, 31, 0.12);
+  }
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .pill {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    background: var(--sumi);
+    color: var(--washi);
+  }
+  .best-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--hanko);
+  }
+  .card-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .card-desc {
+    margin: 6px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #4A4540;
+  }
+  .diff-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #4A4540;
+    font-weight: 600;
+  }
+  .title-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    border-top: 2px solid rgba(43, 41, 39, 0.2);
+    padding-top: 16px;
+  }
+  .btn-primary {
+    background: var(--hanko);
+    color: var(--washi);
+    border: 2px solid var(--hanko-dark);
+    padding: 11px 28px;
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(193, 18, 31, 0.25);
+  }
+  .btn-primary:hover { background: var(--hanko-dark); }
+
+  /* Game Layout */
+  #game-screen {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    background: var(--desk);
+  }
+  .canvas-stage {
+    flex: 1 1 0%;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+  #game-canvas {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    background: var(--washi);
+    border: 2px solid var(--ink-border);
+    box-shadow: 0 12px 32px rgba(26, 25, 24, 0.22);
+    cursor: crosshair;
+    user-select: none;
+    touch-action: none;
+  }
+
+  /* Right HUD Sidebar (~25% width) */
+  #hud-sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    height: 100%;
+    background: var(--parchment);
+    border-left: 2px solid var(--ink-border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  @media (max-width: 960px) {
+    #game-screen { flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; }
+    .canvas-stage { height: auto; padding: 8px; }
+    #hud-sidebar { width: 100%; height: auto; border-left: none; border-top: 2px solid var(--ink-border); }
+  }
+  .hud-block {
+    padding: 10px 12px;
+    border-bottom: 2px solid rgba(43, 41, 39, 0.22);
+  }
+  .hud-top { background: var(--parchment-deep); }
+  .telemetry-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .telemetry-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .wave-pill {
+    background: var(--sumi);
+    color: var(--washi);
+    padding: 2px 8px;
+  }
+  .lives-pill { color: var(--hanko); }
+  .ink-pill { color: #1D1E2C; }
+  .icon-btn {
+    background: var(--washi);
+    border: 1px solid rgba(43, 41, 39, 0.45);
+    padding: 4px 7px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .icon-btn:hover { background: #FFF; }
+  .icon-btn.active {
+    background: var(--sumi);
+    color: var(--washi);
+    border-color: var(--sumi);
+  }
+  .icon-btn.auto-on {
+    background: var(--jade);
+    color: var(--washi);
+    border-color: var(--jade);
+  }
+  .controls-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .wave-btn {
+    flex: 1;
+    background: var(--hanko);
+    color: var(--washi);
+    border: 1px solid var(--hanko-dark);
+    padding: 6px 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .wave-btn:hover:not(:disabled) { background: var(--hanko-dark); }
+  .modifier-banner {
+    margin-top: 8px;
+    padding: 5px 8px;
+    background: rgba(193, 18, 31, 0.14);
+    border: 1px solid var(--hanko);
+    color: #8E0D17;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* Shop Grid */
+  .shop-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+  }
+  .shop-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+  }
+  .seal-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 3px;
+    background: var(--washi);
+    border: 1.5px solid rgba(43, 41, 39, 0.35);
+  }
+  .seal-btn:hover:not(:disabled) { border-color: var(--ink-border); }
+  .seal-btn.active {
+    border-color: var(--hanko);
+    background: #FAF6EE;
+    box-shadow: 0 0 0 1px var(--hanko);
+  }
+  .seal-disc {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: var(--washi);
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 0 1.5px rgba(244, 239, 230, 0.45);
+  }
+  .seal-name { font-size: 10px; font-weight: 700; margin-top: 4px; line-height: 1; }
+  .seal-cost { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  /* Inspector & 4-2 Tree */
+  #inspector-area {
+    flex: 1;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+  }
+  .inspector-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+    border: 1.5px dashed rgba(43, 41, 39, 0.32);
+    background: rgba(244, 239, 230, 0.6);
+  }
+  .insp-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(43, 41, 39, 0.2);
+    padding-bottom: 7px;
+    margin-bottom: 8px;
+  }
+  .target-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+    margin-bottom: 9px;
+  }
+  .target-btn {
+    padding: 4px 2px;
+    font-size: 10px;
+    font-weight: 600;
+    background: var(--washi);
+    border: 1px solid rgba(43, 41, 39, 0.3);
+  }
+  .target-btn.active {
+    background: var(--sumi);
+    color: var(--washi);
+    border-color: var(--sumi);
+  }
+  .tree-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 9px;
+  }
+  .path-card {
+    background: var(--washi);
+    border: 1.5px solid rgba(43, 41, 39, 0.38);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 158px;
+  }
+  .pips-row {
+    display: flex;
+    gap: 3px;
+    margin: 5px 0 7px;
+  }
+  .pip {
+    flex: 1;
+    height: 7px;
+    border: 1px solid rgba(43, 41, 39, 0.5);
+    background: var(--parchment);
+  }
+  .pip.owned { background: var(--jade); }
+  .pip.locked { background: rgba(193, 18, 31, 0.24); }
+  .tag-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 5px;
+    color: var(--washi);
+    margin: 3px 0;
+  }
+  .tag-transforms { background: var(--jade); }
+  .tag-apex { background: var(--hanko); }
+  .sealed-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+  }
+  .sealed-stamp {
+    transform: rotate(-12deg);
+    border: 2px solid var(--hanko);
+    color: var(--hanko);
+    background: rgba(244, 239, 230, 0.94);
+    padding: 3px 9px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    box-shadow: inset 0 0 0 1px rgba(193, 18, 31, 0.35);
+  }
+  .upgrade-btn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--sumi);
+    color: var(--washi);
+    border: 1px solid var(--sumi);
+  }
+  .upgrade-btn:hover:not(:disabled) { background: var(--hanko); border-color: var(--hanko); }
+  .salvage-btn {
+    width: 100%;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--parchment);
+    border: 1.5px solid var(--ink-border);
+  }
+  .salvage-btn:hover { background: var(--hanko); color: var(--washi); border-color: var(--hanko); }
+  .hud-footer {
+    padding: 10px 12px;
+    border-top: 2px solid rgba(43, 41, 39, 0.22);
+    background: var(--parchment-deep);
+  }
+  .codex-trigger {
+    width: 100%;
+    padding: 9px 12px;
+    background: var(--washi);
+    border: 2px solid var(--ink-border);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .codex-trigger:hover { background: #FAF6EE; }
+
+  /* Modals */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: rgba(26, 25, 24, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-box {
+    width: 100%;
+    max-width: 780px;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--washi);
+    border: 2px solid var(--ink-border);
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.35);
+    padding: 20px 24px;
+  }
+  .modal-box.narrow { max-width: 440px; text-align: center; }
+  .codex-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  @media (max-width: 640px) {
+    .codex-grid { grid-template-columns: 1fr; }
+  }
+  .combo-card {
+    border: 1.5px solid rgba(43, 41, 39, 0.32);
+    background: rgba(239, 231, 216, 0.65);
+    padding: 10px 12px;
+  }
+  .combo-card.found {
+    border-color: var(--ink-border);
+    background: #FAF6EE;
+  }
+  .mini-disc {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    color: var(--washi);
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mvp-box {
+    margin: 16px 0;
+    background: var(--parchment);
+    border: 1px solid rgba(43, 41, 39, 0.3);
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    text-align: left;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+  <!-- TITLE SCREEN -->
+  <div id="title-screen">
+    <div class="title-card">
+      <div class="title-header">
+        <div class="brand-row">
+          <div class="hanko-badge serif">折</div>
+          <div>
+            <h1 class="title-h1 serif">Runic Origami &amp; Ink</h1>
+            <p class="title-sub">Tactical Sumi-e Tower Defense</p>
+          </div>
+        </div>
+        <button id="title-codex-btn" type="button" class="btn-outline">
+          Scroll of Seals (<span id="title-codex-count">0</span>/10)
+        </button>
+      </div>
+
+      <h2 class="section-label serif">1. Choose Rice-Paper Scroll</h2>
+      <div id="map-grid" class="card-grid"></div>
+
+      <h2 class="section-label serif">2. Select Difficulty Seal</h2>
+      <div id="diff-grid" class="card-grid"></div>
+
+      <div class="title-footer">
+        <p style="margin:0;font-size:12px;color:#5C5552;max-width:540px;">
+          Combine 5 Elemental Seals to trigger 10 Crimson Hanko Reactions. Fold towers along transformative 4-2 branching paths.
+        </p>
+        <button id="start-game-btn" type="button" class="btn-primary serif">
+          Unroll Scroll &amp; Start
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="game-screen" class="hidden">
+    <div class="canvas-stage">
+      <canvas id="game-canvas" width="960" height="600"></canvas>
+    </div>
+
+    <aside id="hud-sidebar">
+      <div class="hud-block hud-top">
+        <div class="telemetry-row">
+          <div class="telemetry-pills">
+            <span id="hud-wave" class="wave-pill serif">Wave 0/25</span>
+            <span id="hud-lives" class="lives-pill">♥ 100</span>
+            <span id="hud-ink" class="ink-pill">● 450</span>
+          </div>
+          <div style="display:flex;gap:4px;">
+            <button id="btn-mute" type="button" class="icon-btn" title="Toggle Audio">SFX</button>
+            <button id="btn-home" type="button" class="icon-btn" title="Return to Scrolls">Scrolls</button>
+          </div>
+        </div>
+        <div class="controls-row">
+          <button id="btn-wave" type="button" class="wave-btn serif">Send Wave 1</button>
+          <button id="btn-pause" type="button" class="icon-btn" title="Pause / Resume">||</button>
+          <button id="btn-spd-1" type="button" class="icon-btn active">1x</button>
+          <button id="btn-spd-2" type="button" class="icon-btn">2x</button>
+          <button id="btn-spd-3" type="button" class="icon-btn">3x</button>
+          <button id="btn-auto" type="button" class="icon-btn" title="Auto-Next Wave">Auto</button>
+        </div>
+        <div id="modifier-banner" class="modifier-banner hidden"></div>
+      </div>
+
+      <div class="hud-block">
+        <div class="shop-header">
+          <span class="section-label serif" style="margin:0;">Elemental Seal Shop</span>
+          <button id="btn-cancel-place" type="button" class="hidden" style="background:none;border:none;color:#C1121F;font-size:11px;font-weight:700;text-decoration:underline;padding:0;">Cancel</button>
+        </div>
+        <div id="shop-grid" class="shop-grid"></div>
+      </div>
+
+      <div id="inspector-area"></div>
+
+      <div class="hud-footer">
+        <button id="hud-codex-btn" type="button" class="codex-trigger serif">
+          Scroll of Seals (<span id="hud-codex-count">0</span>/10)
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- CODEX MODAL -->
+  <div id="codex-modal" class="modal-backdrop hidden">
+    <div class="modal-box" id="codex-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid rgba(43,41,39,0.2);padding-bottom:10px;margin-bottom:14px;">
+        <div>
+          <h2 class="serif" style="margin:0;font-size:24px;">Scroll of Seals</h2>
+          <p id="codex-sub" style="margin:3px 0 0;font-size:12px;color:#5C5552;"></p>
+        </div>
+        <button id="close-codex-btn" type="button" class="icon-btn" style="padding:6px 11px;font-size:13px;">Close</button>
+      </div>
+      <div id="codex-grid" class="codex-grid"></div>
+    </div>
+  </div>
+
+  <!-- END MODAL -->
+  <div id="end-modal" class="modal-backdrop hidden">
+    <div class="modal-box narrow">
+      <div id="end-stamp" class="hanko-badge serif" style="margin:0 auto 10px;width:58px;height:58px;font-size:28px;">勝</div>
+      <h2 id="end-title" class="serif" style="margin:0;font-size:28px;">Sanctuary Sealed</h2>
+      <p id="end-sub" style="margin:6px 0 0;font-size:12px;color:#5C5552;"></p>
+      <div id="end-mvp" class="mvp-box"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button id="btn-endless" type="button" class="btn-primary serif hidden" style="background:#1A1918;border-color:#1A1918;font-size:14px;padding:10px;">
+          Unroll Infinite Scroll (Endless)
+        </button>
+        <button id="btn-end-title" type="button" class="btn-primary serif" style="font-size:14px;padding:10px;">
+          Claim Victory &amp; Return to Scrolls
+        </button>
+        <button id="btn-end-replay" type="button" class="btn-outline" style="justify-content:center;">
+          Replay This Scroll
+        </button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  'use strict';
+
+  const CANVAS_WIDTH = 960;
+  const CANVAS_HEIGHT = 600;
+  const TOWER_RADIUS = 19;
+  const RESONANCE_RADIUS = 215;
+  const FIXED_DT = 1 / 60;
+  const SALVAGE_RATIO = 0.75;
+  const STORAGE_KEY = 'runic_origami_ink_ledger_v1';
+  const ELEMENT_ORDER = ['air', 'fire', 'water', 'earth', 'ink'];
+  const MAP_ORDER = ['river', 'bridge', 'spiral'];
+  const DIFF_ORDER = ['apprentice', 'master', 'grandmaster'];
+
+  const round5 = (v) => Math.round(v / 5) * 5;
+
+  const DIFFICULTIES = {
+    apprentice: { id: 'apprentice', name: 'Apprentice Scroll', label: 'Normal', startingInk: 450, startingLives: 100, targetWave: 25, hpMult: 1.0, speedMult: 1.0, upgradeCostMult: 1.0, accentColor: '#2A9D8F' },
+    master: { id: 'master', name: 'Master Calligrapher', label: 'Hard', startingInk: 375, startingLives: 50, targetWave: 35, hpMult: 1.25, speedMult: 1.08, upgradeCostMult: 1.1, accentColor: '#D4A373' },
+    grandmaster: { id: 'grandmaster', name: 'Grandmaster Seal', label: 'Nightmare', startingInk: 325, startingLives: 1, targetWave: 40, hpMult: 1.45, speedMult: 1.15, upgradeCostMult: 1.2, accentColor: '#C1121F' }
+  };
+
+  const CORRUPTED_MODIFIERS = {
+    swift_gale: { name: 'Swift Gale', description: 'All enemies move +25% faster this wave.' },
+    iron_origami: { name: 'Iron Origami', description: 'All non-boss enemies gain Armored plating.' },
+    phantom_mist: { name: 'Phantom Mist', description: '30% of enemies enter shrouded in Phantom Camo.' }
+  };
+
+  const TOWER_DEFS = {
+    air: {
+      element: 'air', name: 'Air (Kaze)', kanji: '風', jpName: 'Kaze',
+      color: '#2A9D8F', lightColor: '#76C7BC', darkColor: '#1B6B62',
+      cost: 100, range: 155, fireRate: 1.35, damage: 12, pierce: 2, splashRadius: 0,
+      statusName: 'Wind-Touched', summary: 'Homing paper shuriken; applies Wind-Touched (3.0s).',
+      baseUpgradeCosts: [85, 165, 320, 650],
+      pathAName: 'Flock of Cranes', pathBName: 'Tessen War Fan',
+      pathA: [
+        { tier: 1, name: 'Swift Fold', description: 'Projectile speed +30%, homing turn rate 2x.' },
+        { tier: 2, name: 'Folded Crane', description: 'Paper Cranes persist 3.5s, auto-retarget, +1 pierce.', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Swallow Split', description: 'Cranes split into 2 mini-swallows (8 dmg, 2 pierce) on final hit.' },
+        { tier: 4, name: 'Thousand-Fold Storm', description: 'Launches 3 cranes/volley (18 dmg, 4 pierce) + 2x fire rate.', tag: 'APEX' }
+      ],
+      pathB: [
+        { tier: 1, name: 'Extended Gale', description: 'Range 185px, pierce 4.' },
+        { tier: 2, name: 'Folding War Fan', description: '44px crescent fans push non-bosses 28px & bounce 2x off borders.', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Gale Unshroud', description: 'Knockback 42px; permanently strips Phantom/Camo shrouds.' },
+        { tier: 4, name: 'Typhoon Gale', description: 'Every 4th shot unleashes 110px ink whirlwind (55 dmg, 75px push).', tag: 'APEX' }
+      ]
+    },
+    fire: {
+      element: 'fire', name: 'Fire (Kagura)', kanji: '火', jpName: 'Kagura',
+      color: '#E63946', lightColor: '#F4848D', darkColor: '#9E1F2A',
+      cost: 135, range: 130, fireRate: 0.80, damage: 18, pierce: 1, splashRadius: 48,
+      statusName: 'Burning', summary: 'Lobbed ember lantern; drops 2.5s Ash Patch (6 DPS); applies Burning.',
+      baseUpgradeCosts: [115, 220, 430, 875],
+      pathAName: 'Paper Dragon', pathBName: 'Lotus Fireworks',
+      pathA: [
+        { tier: 1, name: 'Stoked Embers', description: 'Burn DPS increases from 6 to 14.' },
+        { tier: 2, name: "Dragon's Breath", description: 'Continuous 125px ember cone (12 ticks/s, 6 dmg/tick, melts armor).', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Inferno Fold', description: 'Cone widens to 65 deg; burn DPS 28.' },
+        { tier: 4, name: 'Sun-Seal Lance', description: 'Map-spanning crimson-gold laser (18 dmg/tick at 15/s) tracking Strong.', tag: 'APEX' }
+      ],
+      pathB: [
+        { tier: 1, name: 'Festival Spark', description: 'Splash radius 68px, direct damage 26.' },
+        { tier: 2, name: 'Cluster Lotus', description: 'Lanterns burst into 4 spark-bombs (14 dmg, 36px splash).', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Cinder Bed', description: 'Ash patches last 5.0s (22 DPS) and stack up to 3x.' },
+        { tier: 4, name: 'Sky-Lantern Barrage', description: 'Every 2.2s drops 8 exploding lanterns (65 dmg, 64px splash).', tag: 'APEX' }
+      ]
+    },
+    water: {
+      element: 'water', name: 'Water (Mizu)', kanji: '水', jpName: 'Mizu',
+      color: '#3A86FF', lightColor: '#8AB8FF', darkColor: '#1E52A8',
+      cost: 115, range: 145, fireRate: 1.15, damage: 11, pierce: 1, splashRadius: 0,
+      statusName: 'Soaked', summary: 'Fluid wave crest bouncing 2x (90px); applies Soaked (25% slow).',
+      baseUpgradeCosts: [100, 190, 370, 745],
+      pathAName: 'Origami Koi & Tsunami', pathBName: 'Whirlpool & Glacial',
+      pathA: [
+        { tier: 1, name: 'Skipping Ripple', description: '+2 ricochet bounces (4 total), speed +25%.' },
+        { tier: 2, name: 'Leaping Koi', description: 'Paper Koi swim backward 220px along track, hitting up to 8 foes (16 dmg).', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Tidal Trail', description: 'Koi leave 3.0s Wet Wake (35% slow, +20% combo dmg taken).' },
+        { tier: 4, name: 'Great Wave', description: 'Every 6.0s summons full-screen wave (95 dmg, 65px push, Soaked).', tag: 'APEX' }
+      ],
+      pathB: [
+        { tier: 1, name: 'Deep Undertow', description: 'Soaked slow 38%, duration 5.0s.' },
+        { tier: 2, name: 'Paper Whirlpool', description: 'Impacts spawn 58px vortex (2.0s) pulling foes inward (10 DPS).', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Maelstrom Fold', description: 'Vortex radius 76px; pulled enemies take +25% dmg.' },
+        { tier: 4, name: 'Glacial Lotus', description: 'Soaked foes hit 3x freeze 1.8s; next hit shatters for 110 AoE.', tag: 'APEX' }
+      ]
+    },
+    earth: {
+      element: 'earth', name: 'Earth (Tsuchi)', kanji: '土', jpName: 'Tsuchi',
+      color: '#D4A373', lightColor: '#ECC9A4', darkColor: '#8C6239',
+      cost: 150, range: 125, fireRate: 0.65, damage: 34, pierce: 1, splashRadius: 0,
+      statusName: 'Fractured', summary: 'Heavy monolith spike (+100% vs Armor); 0.35s stun; Fractured (+15% dmg).',
+      baseUpgradeCosts: [125, 245, 480, 975],
+      pathAName: 'Shatter Prism', pathBName: 'Kinetic Sentinel',
+      pathA: [
+        { tier: 1, name: 'Heavy Crease', description: 'Base damage 55, stun 0.5s.' },
+        { tier: 2, name: 'Crystal Prism', description: 'Impact shatters into 5 high-velocity shards (18 dmg each) in 70 deg cone.', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Resonant Facets', description: 'Shards deal 2.0x crit (36 dmg) to Soaked/Stained/Fractured foes.' },
+        { tier: 4, name: 'Tectonic Monolith', description: 'Rolling boulders (140 dmg, 12 pierce, detonates for 180 AoE).', tag: 'APEX' }
+      ],
+      pathB: [
+        { tier: 1, name: 'Watchful Stone', description: 'Range 155px, fire rate 0.85/s.' },
+        { tier: 2, name: 'Orbiting Polyhedrons', description: '3 spinning spikes orbit at 68px (24 dmg, 0.4s hit cooldown).', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Kinetic Volley', description: 'Every 3.0s launches copies of all 3 polyhedrons as homing darts (45 dmg).' },
+        { tier: 4, name: 'Celestial Orrery', description: '6 orbiting blades (90px, 42 dmg) + piercing stone beams (65 dmg) every 1.2s.', tag: 'APEX' }
+      ]
+    },
+    ink: {
+      element: 'ink', name: 'Ink (Sumi)', kanji: '墨', jpName: 'Sumi',
+      color: '#1D1E2C', lightColor: '#565973', darkColor: '#0E0F17',
+      cost: 110, range: 140, fireRate: 0.95, damage: 8, pierce: 1, splashRadius: 42,
+      statusName: 'Stained', summary: 'Calligraphy blot; Stained (45% slow, 4.0s + strips Phantom/Camo).',
+      baseUpgradeCosts: [95, 180, 350, 715],
+      pathAName: 'Brushstroke River', pathBName: 'Soul Tether & Void',
+      pathA: [
+        { tier: 1, name: 'Thick Sumi', description: 'Splash radius 62px, slow 52%.' },
+        { tier: 2, name: 'Calligraphy Pool', description: 'Paints 64px ink puddles on nearest track every 1.1s (5.5s, 60% slow).', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Corrosive Wash', description: 'Puddles strip armor layers and deal 18 corrosive DPS.' },
+        { tier: 4, name: 'Living Dragon Scroll', description: 'Every 7.0s summons ink dragon exit-to-entrance (120 dmg, 65% slow 6s).', tag: 'APEX' }
+      ],
+      pathB: [
+        { tier: 1, name: 'Swift Brush', description: 'Fire rate 1.30/s, range 165px.' },
+        { tier: 2, name: 'Ink Tendrils', description: 'Tethers target to 3 foes within 95px (3.5s); 40% damage shared.', tag: 'TRANSFORMS' },
+        { tier: 3, name: 'Binding Script', description: 'Tethered foes move 30% slower and cannot cloak or split.' },
+        { tier: 4, name: 'Void Origami Cube', description: 'Every 5th shot traps foe in obsidian cube (2.5s), detonating 160 AoE.', tag: 'APEX' }
+      ]
+    }
+  };
+
+  const COMBO_DEFS = [
+    { id: 'scalding_steam', elements: ['water', 'fire'], name: 'Scalding Steam', callout: 'STEAM!', kanji: '蒸', description: '45 + 6w AoE dmg (85px radius) + 40% slow (2.5s).', color: '#D97757' },
+    { id: 'monsoon_squall', elements: ['water', 'air'], name: 'Monsoon Squall', callout: 'MONSOON!', kanji: '嵐', description: 'Chains 35 + 4w arcs to up to 5 enemies within 110px.', color: '#2B93B8' },
+    { id: 'mudslide', elements: ['water', 'earth'], name: 'Mudslide', callout: 'MUDSLIDE!', kanji: '泥', description: 'Roots target 1.3s, strips Armor, deals 40 + 5w dmg.', color: '#8D6E63' },
+    { id: 'spreading_wash', elements: ['water', 'ink'], name: 'Spreading Wash', callout: 'WASH!', kanji: '滲', description: 'Spreads Soaked + Stained to all foes within 115px + 25 burst dmg.', color: '#274C77' },
+    { id: 'firestorm', elements: ['fire', 'air'], name: 'Firestorm', callout: 'IGNITE!', kanji: '炎', description: '50 + 6w AoE dmg (80px) + 35px knockback + refreshes Burning.', color: '#E63946' },
+    { id: 'molten_slag', elements: ['fire', 'earth'], name: 'Molten Slag', callout: 'MOLTEN!', kanji: '熔', description: 'Spawns 65px magma patch (4.0s) dealing 28 + 3w DPS.', color: '#D95D39' },
+    { id: 'scorched_lacquer', elements: ['fire', 'ink'], name: 'Scorched Lacquer', callout: 'LACQUER!', kanji: '漆', description: '75 + 9w True Burst Damage (bypasses all Armor/Resistances).', color: '#9B2226' },
+    { id: 'sandstorm_shrapnel', elements: ['air', 'earth'], name: 'Sandstorm Shrapnel', callout: 'SHATTER!', kanji: '砂', description: 'Fires 6 grit needles (16 + 2w dmg each) in 90 deg cone; strips Armor.', color: '#B5844A' },
+    { id: 'calligraphy_gale', elements: ['air', 'ink'], name: 'Calligraphy Gale', callout: 'GALE!', kanji: '筆', description: 'Launches 3 seeking ink-wind blades (24 + 3w dmg) dropping mini puddles.', color: '#264653' },
+    { id: 'petrified_seal', elements: ['earth', 'ink'], name: 'Petrified Seal', callout: 'PETRIFY!', kanji: '石', description: 'Freezes target 1.6s; takes +50% damage from all sources while frozen.', color: '#5C5552' }
+  ];
+
+  const ENEMY_DEFS = {
+    moth: { name: 'Paper Moth', baseHp: 24, speed: 78, radius: 11, bounty: 4, isCamo: false, isArmored: false, isBoss: false, peelsInto: null, color: '#EFE9DD' },
+    crane: { name: 'Folded Crane', baseHp: 55, speed: 96, radius: 13, bounty: 7, isCamo: false, isArmored: false, isBoss: false, peelsInto: { archetype: 'moth', count: 2 }, color: '#F5DCE4' },
+    fox: { name: 'Origami Fox', baseHp: 65, speed: 84, radius: 14, bounty: 9, isCamo: true, isArmored: false, isBoss: false, peelsInto: { archetype: 'crane', count: 1 }, color: '#F4A261' },
+    serpent: { name: 'Tidal Serpent', baseHp: 110, speed: 72, radius: 15, bounty: 12, isCamo: false, isArmored: false, isBoss: false, peelsInto: { archetype: 'moth', count: 3 }, color: '#6BB6D6' },
+    tortoise: { name: 'Iron-Fold Tortoise', baseHp: 160, speed: 46, radius: 17, bounty: 16, isCamo: false, isArmored: true, isBoss: false, peelsInto: { archetype: 'fox', count: 2 }, color: '#575B66' },
+    dragon: { name: 'Paper Dragon', baseHp: 1400, speed: 36, radius: 24, bounty: 120, isCamo: false, isArmored: false, isBoss: true, peelsInto: { archetype: 'tortoise', count: 3 }, color: '#F8F4EC' }
+  };
+
+  function buildSpiralPoints() {
+    const pts = [];
+    for (let i = 0; i <= 64; i++) {
+      const t = i / 64;
+      const a = -Math.PI * 0.85 + t * Math.PI * 4.55;
+      pts.push({ x: 480 + Math.cos(a) * 430 * (1 - t * 0.94), y: 300 + Math.sin(a) * 258 * (1 - t * 0.94) });
+    }
+    pts.push({ x: 480, y: 300 });
+    return pts;
+  }
+
+  const MAP_DEFS = {
+    river: {
+      id: 'river', name: 'Winding Calligraphy River', tierLabel: 'Beginner',
+      description: 'Sweeping S-curve brushstroke with 4 hairpin bends and 2 Conduit Stone Circles (+15% range).',
+      trackHalfWidth: 24,
+      lanes: [[
+        { x: 24, y: 125 }, { x: 165, y: 112 }, { x: 345, y: 88 }, { x: 445, y: 150 },
+        { x: 400, y: 270 }, { x: 265, y: 315 }, { x: 250, y: 445 }, { x: 390, y: 505 },
+        { x: 605, y: 495 }, { x: 745, y: 405 }, { x: 675, y: 265 }, { x: 695, y: 145 }, { x: 840, y: 135 }
+      ]],
+      conduits: [{ x: 335, y: 205, radius: 42 }, { x: 560, y: 365, radius: 42 }]
+    },
+    bridge: {
+      id: 'bridge', name: 'Twin-Bridge Crossover', tierLabel: 'Intermediate',
+      description: 'Two independent splines crossing a Wooden Origami Overpass Bridge toward twin Hanko Seals.',
+      trackHalfWidth: 22,
+      lanes: [
+        [{ x: 24, y: 110 }, { x: 185, y: 105 }, { x: 335, y: 175 }, { x: 480, y: 300 }, { x: 625, y: 425 }, { x: 775, y: 480 }, { x: 895, y: 470 }],
+        [{ x: 24, y: 490 }, { x: 185, y: 495 }, { x: 335, y: 425 }, { x: 480, y: 300 }, { x: 625, y: 175 }, { x: 775, y: 120 }, { x: 895, y: 130 }]
+      ],
+      conduits: [], bridgeCenter: { x: 480, y: 300 }
+    },
+    spiral: {
+      id: 'spiral', name: 'The Spiral Shrine', tierLabel: 'Advanced',
+      description: 'Inward-coiling spiral to the center Crimson Hanko Stamp. Outer 40% foes move +15% faster.',
+      trackHalfWidth: 20, lanes: [buildSpiralPoints()], conduits: [], outerSpeedBonus: 0.15
+    }
+  };
+
+  function catmullRom(p0, p1, p2, p3, t) {
+    const t2 = t * t, t3 = t2 * t;
+    return {
+      x: 0.5 * (2 * p1.x + (-p0.x + p2.x) * t + (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 + (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3),
+      y: 0.5 * (2 * p1.y + (-p0.y + p2.y) * t + (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 + (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3)
+    };
+  }
+
+  const bakedMaps = {};
+  function getBakedMap(mapId) {
+    if (bakedMaps[mapId]) return bakedMaps[mapId];
+    const def = MAP_DEFS[mapId];
+    const lanes = def.lanes.map((pts) => {
+      const dense = [];
+      for (let i = 0; i < pts.length - 1; i++) {
+        const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+        for (let s = 0; s < 24; s++) dense.push(catmullRom(p0, p1, p2, p3, s / 24));
+      }
+      dense.push(pts[pts.length - 1]);
+      const samples = [];
+      let accum = 0, last = -4;
+      for (let i = 0; i < dense.length; i++) {
+        if (i > 0) accum += Math.hypot(dense[i].x - dense[i - 1].x, dense[i].y - dense[i - 1].y);
+        if (i === 0 || i === dense.length - 1 || accum - last >= 4) {
+          const next = dense[Math.min(dense.length - 1, i + 1)], prev = dense[Math.max(0, i - 1)];
+          samples.push({ x: dense[i].x, y: dense[i].y, angle: Math.atan2(next.y - prev.y, next.x - prev.x), dist: accum });
+          last = accum;
+        }
+      }
+      return { samples, totalLength: accum };
+    });
+    const clearanceSamples = [];
+    lanes.forEach((l) => l.samples.forEach((s) => clearanceSamples.push({ x: s.x, y: s.y })));
+    bakedMaps[mapId] = { def, lanes, clearanceSamples };
+    return bakedMaps[mapId];
+  }
+
+  function sampleLaneAt(lane, dist) {
+    const s = lane.samples;
+    if (dist <= 0) return s[0];
+    if (dist >= lane.totalLength) return s[s.length - 1];
+    let lo = 0, hi = s.length - 1;
+    while (lo + 1 < hi) {
+      const mid = (lo + hi) >> 1;
+      if (s[mid].dist <= dist) lo = mid; else hi = mid;
+    }
+    const a = s[lo], b = s[hi];
+    const t = (dist - a.dist) / Math.max(0.0001, b.dist - a.dist);
+    return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, angle: a.angle, dist };
+  }
+
+  function distToSegmentSq(px, py, ax, ay, bx, by) {
+    const dx = bx - ax, dy = by - ay, lenSq = dx * dx + dy * dy;
+    if (lenSq < 0.0001) return (px - ax) ** 2 + (py - ay) ** 2;
+    const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lenSq));
+    return (px - (ax + t * dx)) ** 2 + (py - (ay + t * dy)) ** 2;
+  }
+
+  function loadLedger() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { scores: {}, discoveredCombos: [] };
+      const p = JSON.parse(raw);
+      return { scores: p.scores || {}, discoveredCombos: Array.isArray(p.discoveredCombos) ? p.discoveredCombos : [] };
+    } catch { return { scores: {}, discoveredCombos: [] }; }
+  }
+  function saveLedger(l) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(l)); } catch {} }
+
+  // Procedural Web Audio Synthesizer
+  class SoundEngine {
+    constructor() { this.ctx = null; this.muted = false; this.lastPop = 0; this.streak = 0; }
+    ensure() {
+      if (this.muted) return null;
+      if (!this.ctx && window.AudioContext) { try { this.ctx = new window.AudioContext(); } catch { return null; } }
+      if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+      return this.ctx;
+    }
+    playPlace() {
+      const c = this.ensure(); if (!c) return;
+      const now = c.currentTime;
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = 'sine'; o.frequency.setValueAtTime(110, now); o.frequency.exponentialRampToValueAtTime(45, now + 0.14);
+      g.gain.setValueAtTime(0.22, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      o.connect(g); g.connect(c.destination); o.start(now); o.stop(now + 0.17);
+      const bs = Math.floor(c.sampleRate * 0.055), buf = c.createBuffer(1, bs, c.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < bs; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bs * 0.32));
+      const n = c.createBufferSource(); n.buffer = buf;
+      const f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.setValueAtTime(1800, now);
+      const ng = c.createGain(); ng.gain.setValueAtTime(0.15, now); ng.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+      n.connect(f); f.connect(ng); ng.connect(c.destination); n.start(now);
+    }
+    playPop() {
+      const c = this.ensure(); if (!c) return;
+      const now = c.currentTime;
+      this.streak = (now - this.lastPop <= 0.3) ? Math.min(20, this.streak + 1) : 0;
+      this.lastPop = now;
+      const pm = Math.min(1.4, 1 + this.streak * 0.02);
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = 'triangle'; o.frequency.setValueAtTime(360 * pm, now); o.frequency.exponentialRampToValueAtTime(190 * pm, now + 0.065);
+      g.gain.setValueAtTime(0.1, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+      o.connect(g); g.connect(c.destination); o.start(now); o.stop(now + 0.075);
+    }
+    playCombo() {
+      const c = this.ensure(); if (!c) return;
+      const now = c.currentTime;
+      const t = c.createOscillator(), tg = c.createGain();
+      t.type = 'sine'; t.frequency.setValueAtTime(140, now); t.frequency.exponentialRampToValueAtTime(42, now + 0.24);
+      tg.gain.setValueAtTime(0.3, now); tg.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+      t.connect(tg); tg.connect(c.destination); t.start(now); t.stop(now + 0.27);
+      [587.33, 880, 1174.66].forEach((freq, i) => {
+        const o = c.createOscillator(), g = c.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(freq, now + i * 0.03);
+        g.gain.setValueAtTime(0.08, now + i * 0.03); g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.03 + 0.32);
+        o.connect(g); g.connect(c.destination); o.start(now + i * 0.03); o.stop(now + i * 0.03 + 0.34);
+      });
+    }
+    playStamp() {
+      const c = this.ensure(); if (!c) return;
+      const now = c.currentTime, o = c.createOscillator(), g = c.createGain();
+      o.type = 'sine'; o.frequency.setValueAtTime(95, now); o.frequency.exponentialRampToValueAtTime(36, now + 0.18);
+      g.gain.setValueAtTime(0.22, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+      o.connect(g); g.connect(c.destination); o.start(now); o.stop(now + 0.21);
+    }
+    destroy() { if (this.ctx) { this.ctx.close().catch(() => {}); this.ctx = null; } }
+  }
+
+  function generateWave(wave, targetWave, laneCount) {
+    const mods = ['swift_gale', 'iron_origami', 'phantom_mist'];
+    let mod = null;
+    if (wave > targetWave && (wave - targetWave) % 5 === 0) {
+      mod = mods[Math.floor((wave - targetWave) / 5 - 1) % mods.length];
+    }
+    let groups;
+    if (wave === 1) groups = [{ a: 'moth', c: 10, iv: 0.72, d: 0.3 }];
+    else if (wave === 2) groups = [{ a: 'moth', c: 16, iv: 0.58, d: 0.2 }];
+    else if (wave === 3) groups = [{ a: 'moth', c: 10, iv: 0.5, d: 0.2 }, { a: 'crane', c: 5, iv: 0.85, d: 4.5 }];
+    else if (wave === 4) groups = [{ a: 'crane', c: 9, iv: 0.72, d: 0.2 }, { a: 'moth', c: 14, iv: 0.38, d: 3.5 }];
+    else if (wave === 5) groups = [{ a: 'moth', c: 12, iv: 0.42, d: 0.2 }, { a: 'fox', c: 5, iv: 0.95, d: 3.0 }];
+    else if (wave === 6) groups = [{ a: 'crane', c: 10, iv: 0.6, d: 0.2 }, { a: 'serpent', c: 4, iv: 1.1, d: 3.5 }];
+    else if (wave === 7) groups = [{ a: 'fox', c: 8, iv: 0.75, d: 0.2 }, { a: 'crane', c: 10, iv: 0.52, d: 3.2 }];
+    else if (wave === 8) groups = [{ a: 'tortoise', c: 4, iv: 1.4, d: 0.3 }, { a: 'moth', c: 18, iv: 0.32, d: 2.0 }];
+    else if (wave === 9) groups = [{ a: 'serpent', c: 8, iv: 0.85, d: 0.2 }, { a: 'fox', c: 7, iv: 0.7, d: 3.8 }];
+    else if (wave % 10 === 0 || wave === 25 || wave === 35 || wave === 40) {
+      groups = [
+        { a: 'dragon', c: wave >= 35 ? 2 : 1, iv: 4.5, d: 1.4 },
+        { a: 'tortoise', c: 4 + Math.floor(wave / 6), iv: 1.0, d: 0.3 },
+        { a: 'fox', c: 6 + Math.floor(wave / 4), iv: 0.55, d: 3.0 },
+        { a: 'serpent', c: 6 + Math.floor(wave / 5), iv: 0.65, d: 5.0 }
+      ];
+    } else {
+      const s = Math.max(1, wave - 9);
+      groups = [
+        { a: wave % 3 === 0 ? 'fox' : 'crane', c: 10 + Math.floor(s * 0.9), iv: Math.max(0.28, 0.55 - s * 0.008), d: 0.2 },
+        { a: wave % 2 === 0 ? 'serpent' : 'tortoise', c: 5 + Math.floor(s * 0.65), iv: Math.max(0.42, 0.95 - s * 0.014), d: 2.2 }
+      ];
+      if (wave >= 14) groups.push({ a: wave % 2 === 0 ? 'tortoise' : 'fox', c: 4 + Math.floor(s * 0.5), iv: 0.65, d: 4.5 });
+      if (wave > 40) groups.push({ a: 'dragon', c: 1 + Math.floor((wave - 40) / 4), iv: 3.2, d: 1.2 });
+    }
+    const events = [];
+    let seq = 0;
+    groups.forEach((g) => {
+      for (let i = 0; i < g.c; i++) {
+        events.push({
+          time: g.d + i * g.iv,
+          archetype: g.a,
+          laneIndex: laneCount > 1 ? seq % laneCount : 0,
+          forceCamo: mod === 'phantom_mist' && seq % 3 === 0,
+          forceArmor: mod === 'iron_origami' && g.a !== 'dragon'
+        });
+        seq++;
+      }
+    });
+    events.sort((a, b) => a.time - b.time);
+    return { events, corruptedModifier: mod };
+  }
+
+  function findCombo(a, b) {
+    if (a === b) return null;
+    return COMBO_DEFS.find((c) => (c.elements[0] === a && c.elements[1] === b) || (c.elements[0] === b && c.elements[1] === a)) || null;
+  }
+
+  class GameEngine {
+    constructor(mapId, difficultyId) {
+      this.mapId = mapId;
+      this.difficultyId = difficultyId;
+      this.bakedMap = getBakedMap(mapId);
+      this.sound = new SoundEngine();
+      const diff = DIFFICULTIES[difficultyId];
+      this.targetWave = diff.targetWave;
+      this.ink = diff.startingInk;
+      this.lives = diff.startingLives;
+      this.maxLives = diff.startingLives;
+      this.wave = 0;
+      this.inWave = false;
+      this.endless = false;
+      this.paused = false;
+      this.speed = 1;
+      this.autoNext = false;
+      this.gameOver = 'none';
+      this.corruptedModifier = null;
+
+      this.towers = [];
+      this.enemies = [];
+      this.projectiles = [];
+      this.groundEffects = [];
+      this.particles = [];
+      this.callouts = [];
+      this.stampFlashes = [];
+      this.lightningArcs = [];
+      this.spawnQueue = [];
+
+      this.selectedTowerId = null;
+      this.placingElement = null;
+      this.discoveredCombosRun = new Set();
+      this.discoveredCombosGlobal = new Set(loadLedger().discoveredCombos);
+      this.screenShake = 0;
+      this.elapsedTime = 0;
+      this.waveTime = 0;
+      this.nextId = 1;
+      this.totalKills = 0;
+      this.totalDamage = 0;
+      this.combosTriggered = 0;
+      this.autoNextDelay = 0;
+      this.accumulator = 0;
+      this.uiDirty = true;
+    }
+
+    getTowerRange(t, previewPath) {
+      let r = TOWER_DEFS[t.element].range;
+      const pA = t.pathA + (previewPath === 'A' ? 1 : 0);
+      const pB = t.pathB + (previewPath === 'B' ? 1 : 0);
+      if (t.element === 'air' && pB >= 1) r = 185;
+      if (t.element === 'fire' && pA >= 4) r = 960;
+      if (t.element === 'earth' && pB >= 1) r = 155;
+      if (t.element === 'ink' && pB >= 1) r = 165;
+      if (t.inConduit && r < 900) r = Math.round(r * 1.15);
+      return r;
+    }
+
+    getTowerRate(t) {
+      let r = TOWER_DEFS[t.element].fireRate;
+      if (t.element === 'air' && t.pathA >= 4) r *= 2;
+      if (t.element === 'earth' && t.pathB >= 1) r = 0.85;
+      if (t.element === 'ink' && t.pathB >= 1) r = 1.3;
+      return r;
+    }
+
+    getTowerName(t) {
+      const def = TOWER_DEFS[t.element];
+      if (t.pathA === 4) return def.pathA[3].name;
+      if (t.pathB === 4) return def.pathB[3].name;
+      if (t.pathA >= 2 && t.pathA >= t.pathB) return def.pathA[t.pathA - 1].name;
+      if (t.pathB >= 2) return def.pathB[t.pathB - 1].name;
+      return def.name;
+    }
+
+    canUpgrade(t, path) {
+      const curr = path === 'A' ? t.pathA : t.pathB;
+      const other = path === 'A' ? t.pathB : t.pathA;
+      if (curr >= 4) return { allowed: false, sealed: false, maxed: true, cost: 0 };
+      if (other >= 3 && curr >= 2) return { allowed: false, sealed: true, maxed: false, cost: 0 };
+      const cost = round5(TOWER_DEFS[t.element].baseUpgradeCosts[curr] * DIFFICULTIES[this.difficultyId].upgradeCostMult);
+      return { allowed: this.ink >= cost, sealed: false, maxed: false, cost };
+    }
+
+    isPlacementValid(x, y) {
+      if (x < 28 || x > CANVAS_WIDTH - 28 || y < 28 || y > CANVAS_HEIGHT - 28) return false;
+      const minTrackSq = (this.bakedMap.def.trackHalfWidth + TOWER_RADIUS + 6) ** 2;
+      for (const p of this.bakedMap.clearanceSamples) {
+        if ((p.x - x) ** 2 + (p.y - y) ** 2 < minTrackSq) return false;
+      }
+      const minTowerSq = (TOWER_RADIUS * 2 + 4) ** 2;
+      for (const t of this.towers) {
+        if ((t.x - x) ** 2 + (t.y - y) ** 2 < minTowerSq) return false;
+      }
+      return true;
+    }
+
+    placeTower(element, x, y) {
+      if (this.gameOver !== 'none') return null;
+      const def = TOWER_DEFS[element];
+      if (this.ink < def.cost || !this.isPlacementValid(x, y)) return null;
+      this.ink -= def.cost;
+      const inConduit = this.bakedMap.def.conduits.some((c) => Math.hypot(x - c.x, y - c.y) <= c.radius);
+      const t = {
+        id: this.nextId++, element, x, y, pathA: 0, pathB: 0, targeting: 'first',
+        totalInvested: def.cost, cooldown: 0.08, abilityTimer: 0.5, shotCount: 0,
+        kills: 0, damageDealt: 0, inConduit, aimAngle: 0, orbitAngle: 0,
+        beamActiveTimer: 0, placeAnim: 1
+      };
+      this.towers.push(t);
+      this.selectedTowerId = t.id;
+      this.placingElement = null;
+      this.sound.playPlace();
+      this.spawnParticles(x, y, def.color, 10, 'triangle');
+      this.uiDirty = true;
+      return t;
+    }
+
+    upgradeTower(id, path) {
+      const t = this.towers.find((x) => x.id === id);
+      if (!t) return false;
+      const chk = this.canUpgrade(t, path);
+      if (!chk.allowed) return false;
+      this.ink -= chk.cost;
+      t.totalInvested += chk.cost;
+      if (path === 'A') t.pathA++; else t.pathB++;
+      t.placeAnim = 1;
+      this.sound.playStamp();
+      this.spawnParticles(t.x, t.y, '#D4AF37', 12, 'triangle');
+      this.uiDirty = true;
+      return true;
+    }
+
+    salvageTower(id) {
+      const idx = this.towers.findIndex((x) => x.id === id);
+      if (idx === -1) return;
+      const t = this.towers[idx];
+      this.ink += Math.floor(t.totalInvested * SALVAGE_RATIO);
+      this.towers.splice(idx, 1);
+      if (this.selectedTowerId === id) this.selectedTowerId = null;
+      this.spawnParticles(t.x, t.y, '#F4EFE6', 12, 'triangle');
+      this.uiDirty = true;
+    }
+
+    startNextWave() {
+      if (this.gameOver !== 'none') return;
+      if (this.inWave && this.spawnQueue.length > 0) return;
+      if (this.inWave && this.spawnQueue.length === 0 && this.enemies.length > 0) {
+        const wBonus = 45 + 8 * this.wave;
+        const oc = 20 + Math.floor(0.15 * wBonus);
+        this.ink += oc;
+        this.callouts.push({ x: 480, y: 80, text: `OVERCLOCK +${oc} INK`, color: '#C1121F', life: 1.4, maxLife: 1.4, scale: 1.05 });
+      }
+      this.wave++;
+      const desc = generateWave(this.wave, this.targetWave, this.bakedMap.lanes.length);
+      this.spawnQueue = desc.events;
+      this.corruptedModifier = desc.corruptedModifier;
+      this.waveTime = 0;
+      this.inWave = true;
+      this.autoNextDelay = 0;
+      this.sound.playStamp();
+      this.uiDirty = true;
+    }
+
+    stepFrame(rawDt) {
+      const dt = Math.min(rawDt, 0.05);
+      if (this.paused || this.gameOver !== 'none') return;
+      this.accumulator += dt;
+      while (this.accumulator >= FIXED_DT) {
+        this.accumulator -= FIXED_DT;
+        for (let s = 0; s < this.speed; s++) {
+          this.stepFixed(FIXED_DT);
+          if (this.gameOver !== 'none') break;
+        }
+      }
+    }
+
+    stepFixed(dt) {
+      this.elapsedTime += dt;
+      if (this.screenShake > 0) this.screenShake = Math.max(0, this.screenShake - dt * 18);
+
+      if (this.inWave && this.spawnQueue.length > 0) {
+        this.waveTime += dt;
+        while (this.spawnQueue.length > 0 && this.spawnQueue[0].time <= this.waveTime) {
+          const ev = this.spawnQueue.shift();
+          this.spawnEnemy(ev.archetype, ev.laneIndex, 0, ev.forceCamo, ev.forceArmor);
+        }
+      }
+
+      this.updateGroundEffects(dt);
+      this.updateTowers(dt);
+      this.updateProjectiles(dt);
+      this.updateEnemies(dt);
+      this.updateVfx(dt);
+
+      if (this.inWave && this.spawnQueue.length === 0 && this.enemies.length === 0) {
+        this.inWave = false;
+        const bonus = 45 + 8 * this.wave;
+        this.ink += bonus;
+        this.callouts.push({ x: 480, y: 92, text: `WAVE ${this.wave} SEALED +${bonus} INK`, color: '#1A1918', life: 1.5, maxLife: 1.5, scale: 1.1 });
+        this.persistLedger(false);
+        if (!this.endless && this.wave >= this.targetWave) {
+          this.gameOver = 'victory';
+          this.persistLedger(true);
+          this.sound.playCombo();
+        }
+        this.uiDirty = true;
+      } else if (!this.inWave && this.autoNext && this.wave > 0 && this.gameOver === 'none') {
+        this.autoNextDelay += dt;
+        if (this.autoNextDelay >= 1.1) this.startNextWave();
+      }
+    }
+
+    spawnEnemy(archetype, laneIndex, dist, forceCamo, forceArmor, inheritedHitId) {
+      const base = ENEMY_DEFS[archetype];
+      const diff = DIFFICULTIES[this.difficultyId];
+      const stdW = Math.min(this.wave, this.targetWave);
+      let hp = base.baseHp * (1 + 0.11 * (stdW - 1) + 0.008 * (stdW - 1) ** 2) * diff.hpMult;
+      if (this.wave > this.targetWave) hp *= Math.pow(1.14, this.wave - this.targetWave);
+      hp = Math.round(hp);
+      const endlessSpd = this.wave > this.targetWave ? Math.min(2.2, 1 + 0.025 * (this.wave - this.targetWave)) : 1;
+      const laneIdx = Math.max(0, Math.min(this.bakedMap.lanes.length - 1, laneIndex));
+      const lane = this.bakedMap.lanes[laneIdx];
+      const clampedDist = Math.max(0, Math.min(lane.totalLength - 1, dist));
+      const smp = sampleLaneAt(lane, clampedDist);
+      const hitIds = new Set();
+      if (inheritedHitId !== undefined) hitIds.add(inheritedHitId);
+      const e = {
+        id: this.nextId++, archetype, laneIndex: laneIdx, distanceTraveled: clampedDist,
+        x: smp.x, y: smp.y, angle: smp.angle, hp, maxHp: hp,
+        baseSpeed: base.speed * diff.speedMult * endlessSpd,
+        radius: base.radius, bounty: base.bounty,
+        isCamo: base.isCamo || !!forceCamo, camoRevealed: false,
+        isArmored: base.isArmored || !!forceArmor, armorStripped: false,
+        isBoss: base.isBoss, reactionCooldown: 0,
+        status: {
+          wind: 0, burning: 0, burnDps: 0, soaked: 0, soakedSlow: 0.25, soakedHits: 0,
+          fractured: 0, stained: 0, stainedSlow: 0.45, stun: 0, root: 0, frozen: 0,
+          frozenSource: null, voidTimer: 0, voidDamage: 0, voidSourceTowerId: null,
+          steamSlow: 0, wetWake: 0, vortexAmp: 0, tetherIds: [], tetherTimer: 0, tetherNoSplit: false
+        },
+        hitProjectileIds: hitIds, orbitCooldowns: new Map(),
+        animPhase: Math.random() * 6.28, alive: true
+      };
+      this.enemies.push(e);
+      this.uiDirty = true;
+    }
+
+    canSee(t, e) {
+      if (!e.isCamo || e.camoRevealed) return true;
+      return t.element === 'ink' || t.element === 'water' || (t.element === 'air' && t.pathB >= 3);
+    }
+
+    hasStatus(e, el) {
+      if (el === 'air') return e.status.wind > 0;
+      if (el === 'fire') return e.status.burning > 0;
+      if (el === 'water') return e.status.soaked > 0;
+      if (el === 'earth') return e.status.fractured > 0;
+      return e.status.stained > 0;
+    }
+
+    pickTarget(t, rangeOverride, forceStrong) {
+      const rSq = (rangeOverride || this.getTowerRange(t)) ** 2;
+      const cand = [];
+      for (const e of this.enemies) {
+        if (!e.alive || !this.canSee(t, e)) continue;
+        if ((e.x - t.x) ** 2 + (e.y - t.y) ** 2 <= rSq) cand.push(e);
+      }
+      if (!cand.length) return null;
+      const mode = forceStrong ? 'strong' : t.targeting;
+      let pool = cand;
+      if (mode === 'unprimed') {
+        const un = cand.filter((e) => !this.hasStatus(e, t.element));
+        if (un.length) pool = un;
+      }
+      let best = pool[0];
+      for (let i = 1; i < pool.length; i++) {
+        const c = pool[i];
+        if (mode === 'first' || mode === 'unprimed') { if (c.distanceTraveled > best.distanceTraveled) best = c; }
+        else if (mode === 'last') { if (c.distanceTraveled < best.distanceTraveled) best = c; }
+        else if (mode === 'strong') { if (c.hp > best.hp) best = c; }
+        else if (mode === 'close') { if (Math.hypot(c.x - t.x, c.y - t.y) < Math.hypot(best.x - t.x, best.y - t.y)) best = c; }
+      }
+      return best;
+    }
+
+    updateTowers(dt) {
+      for (const t of this.towers) {
+        if (t.placeAnim > 0) t.placeAnim = Math.max(0, t.placeAnim - dt * 4);
+        if (t.beamActiveTimer > 0) t.beamActiveTimer = Math.max(0, t.beamActiveTimer - dt);
+
+        // Passives
+        if (t.element === 'earth' && t.pathB >= 2) {
+          const count = t.pathB >= 4 ? 6 : 3, rad = t.pathB >= 4 ? 90 : 68, dmg = t.pathB >= 4 ? 42 : 24;
+          t.orbitAngle += dt * 2.9;
+          for (let i = 0; i < count; i++) {
+            const a = t.orbitAngle + (i * Math.PI * 2) / count;
+            const ox = t.x + Math.cos(a) * rad, oy = t.y + Math.sin(a) * rad;
+            for (const e of this.enemies) {
+              if (!e.alive || !this.canSee(t, e)) continue;
+              if (Math.hypot(e.x - ox, e.y - oy) <= e.radius + 12 && !e.orbitCooldowns.has(t.id)) {
+                e.orbitCooldowns.set(t.id, 0.4);
+                this.applyElementalHit(e, dmg, 'earth', t, 0, { stun: t.pathA >= 1 ? 0.5 : 0.35 });
+              }
+            }
+          }
+          if (t.pathB >= 3 && this.enemies.length) {
+            t.abilityTimer -= dt;
+            if (t.abilityTimer <= 0) {
+              t.abilityTimer = t.pathB >= 4 ? 1.2 : 3.0;
+              if (t.pathB >= 4) {
+                const target = this.pickTarget(t, 280);
+                if (target) {
+                  const ang = Math.atan2(target.y - t.y, target.x - t.x);
+                  const ex = t.x + Math.cos(ang) * 290, ey = t.y + Math.sin(ang) * 290;
+                  this.lightningArcs.push({ points: [{ x: t.x, y: t.y }, { x: ex, y: ey }], color: '#D4A373', life: 0.2, maxLife: 0.2 });
+                  for (const e of this.enemies) {
+                    if (e.alive && this.canSee(t, e) && distToSegmentSq(e.x, e.y, t.x, t.y, ex, ey) <= (e.radius + 10) ** 2) {
+                      this.applyElementalHit(e, 65, 'earth', t, 0);
+                    }
+                  }
+                }
+              } else {
+                for (let i = 0; i < 3; i++) {
+                  const a = t.orbitAngle + (i * Math.PI * 2) / 3;
+                  this.spawnProj({ towerId: t.id, element: 'earth', kind: 'homing_poly', x: t.x + Math.cos(a) * rad, y: t.y + Math.sin(a) * rad, angle: a, speed: 360, damage: 45, pierce: 1, radius: 8, maxLife: 2.2, homingTurnRate: 0.14, pathA: t.pathA, pathB: t.pathB });
+                }
+              }
+            }
+          }
+        }
+
+        if (t.element === 'ink' && t.pathA >= 2 && this.enemies.length) {
+          t.abilityTimer -= dt;
+          if (t.abilityTimer <= 0) {
+            t.abilityTimer = 1.1;
+            let best = this.bakedMap.clearanceSamples[0], bd = Infinity;
+            for (const p of this.bakedMap.clearanceSamples) {
+              const d = (p.x - t.x) ** 2 + (p.y - t.y) ** 2;
+              if (d < bd) { bd = d; best = p; }
+            }
+            this.groundEffects.push({
+              id: this.nextId++, towerId: t.id, element: 'ink', kind: 'ink_pool',
+              x: best.x + (Math.random() - 0.5) * 16, y: best.y + (Math.random() - 0.5) * 16,
+              radius: 64, dps: t.pathA >= 3 ? 18 : 0, slow: 0.6, pullSpeed: 0, damageAmp: 0,
+              stripsArmor: t.pathA >= 3, life: 5.5, maxLife: 5.5, tickTimer: 0, rotation: Math.random() * 6.28
+            });
+          }
+        }
+
+        if (t.element === 'ink' && t.pathA >= 4 && this.inWave && this.enemies.length) {
+          if (Math.floor((this.elapsedTime - dt) / 7.0) < Math.floor(this.elapsedTime / 7.0)) {
+            const li = Math.floor(Math.random() * this.bakedMap.lanes.length);
+            const lane = this.bakedMap.lanes[li];
+            const end = sampleLaneAt(lane, lane.totalLength - 4);
+            this.spawnProj({ towerId: t.id, element: 'ink', kind: 'ink_dragon', x: end.x, y: end.y, angle: end.angle + Math.PI, speed: 250, damage: 120, pierce: 99, radius: 26, maxLife: 8, splineLane: li, splineDist: lane.totalLength - 4, splineDistRemaining: lane.totalLength, pathA: t.pathA, pathB: t.pathB });
+          }
+        }
+
+        if (t.element === 'fire' && t.pathB >= 4 && this.enemies.length) {
+          t.abilityTimer -= dt;
+          if (t.abilityTimer <= 0) {
+            t.abilityTimer = 2.2;
+            const c = this.enemies[0];
+            for (let i = 0; i < 8; i++) {
+              const a = (i * Math.PI * 2) / 8 + Math.random() * 0.3;
+              const tx = Math.max(30, Math.min(930, c.x + Math.cos(a) * 45));
+              const ty = Math.max(30, Math.min(570, c.y + Math.sin(a) * 45));
+              this.spawnProj({ towerId: t.id, element: 'fire', kind: 'sky_lantern', x: t.x, y: t.y, angle: Math.atan2(ty - t.y, tx - t.x), speed: 420, damage: 65, pierce: 1, radius: 10, splashRadius: 64, maxLife: 2.5, targetX: tx, targetY: ty, pathA: t.pathA, pathB: t.pathB });
+            }
+          }
+        }
+
+        if (t.element === 'water' && t.pathA >= 4 && this.enemies.length) {
+          t.abilityTimer -= dt;
+          if (t.abilityTimer <= 0) {
+            t.abilityTimer = 6.0;
+            this.groundEffects.push({ id: this.nextId++, towerId: t.id, element: 'water', kind: 'great_wave', x: 0, y: 300, radius: 960, dps: 0, slow: 0, pullSpeed: 0, damageAmp: 0, stripsArmor: false, life: 0.9, maxLife: 0.9, tickTimer: 0, rotation: 0 });
+            this.screenShake = Math.max(this.screenShake, 3);
+            this.callouts.push({ x: 480, y: 120, text: 'GREAT WAVE!', color: '#3A86FF', life: 1.2, maxLife: 1.2, scale: 1.2 });
+            for (const e of this.enemies) {
+              if (!e.alive) continue;
+              if (!e.isBoss) e.distanceTraveled = Math.max(0, e.distanceTraveled - 65);
+              this.applyElementalHit(e, 95, 'water', t, 0);
+            }
+          }
+        }
+
+        t.cooldown -= dt;
+        if (t.cooldown > 0) continue;
+
+        if (t.element === 'fire' && t.pathA >= 2) {
+          const isSun = t.pathA >= 4;
+          const target = this.pickTarget(t, isSun ? 960 : 125, isSun);
+          if (!target) continue;
+          t.aimAngle = Math.atan2(target.y - t.y, target.x - t.x);
+          t.beamActiveTimer = 0.14;
+          t.cooldown = isSun ? 1 / 15 : 1 / 12;
+          if (isSun) {
+            const ex = t.x + Math.cos(t.aimAngle) * 1050, ey = t.y + Math.sin(t.aimAngle) * 1050;
+            for (const e of this.enemies) {
+              if (e.alive && this.canSee(t, e) && distToSegmentSq(e.x, e.y, t.x, t.y, ex, ey) <= (e.radius + 9) ** 2) {
+                if (e.isArmored) e.armorStripped = true;
+                this.applyElementalHit(e, 18, 'fire', t, 0, { burnDps: 28 });
+              }
+            }
+          } else {
+            const half = ((t.pathA >= 3 ? 65 : 46) * Math.PI) / 360;
+            for (const e of this.enemies) {
+              if (!e.alive || !this.canSee(t, e)) continue;
+              if (Math.hypot(e.x - t.x, e.y - t.y) <= 130) {
+                let d = Math.atan2(e.y - t.y, e.x - t.x) - t.aimAngle;
+                while (d > Math.PI) d -= 6.283185;
+                while (d < -Math.PI) d += 6.283185;
+                if (Math.abs(d) <= half) {
+                  if (e.isArmored) e.armorStripped = true;
+                  this.applyElementalHit(e, 6, 'fire', t, 0, { burnDps: t.pathA >= 3 ? 28 : 14 });
+                }
+              }
+            }
+          }
+          continue;
+        }
+
+        const target = this.pickTarget(t);
+        if (!target) continue;
+        t.aimAngle = Math.atan2(target.y - t.y, target.x - t.x);
+        t.shotCount++;
+        t.cooldown = 1 / this.getTowerRate(t);
+        this.fireShot(t, target);
+      }
+    }
+
+    fireShot(t, target) {
+      const a = Math.atan2(target.y - t.y, target.x - t.x);
+      if (t.element === 'air') {
+        if (t.pathB >= 4 && t.shotCount % 4 === 0) {
+          this.spawnProj({ towerId: t.id, element: 'air', kind: 'whirlwind', x: t.x, y: t.y, angle: a, speed: 230, damage: 55, pierce: 15, radius: 46, maxLife: 2.2, knockback: 75, stripsCamo: true, pathA: t.pathA, pathB: t.pathB });
+        } else if (t.pathB >= 2) {
+          this.spawnProj({ towerId: t.id, element: 'air', kind: 'war_fan', x: t.x, y: t.y, angle: a, speed: 350, damage: 16, pierce: 6, radius: 22, maxLife: 2.4, bouncesLeft: 2, knockback: t.pathB >= 3 ? 42 : 28, stripsCamo: t.pathB >= 3, pathA: t.pathA, pathB: t.pathB });
+        } else {
+          const isCrane = t.pathA >= 2, volley = t.pathA >= 4 ? 3 : 1;
+          for (let i = 0; i < volley; i++) {
+            const off = volley === 1 ? 0 : (i - 1) * 0.22;
+            this.spawnProj({ towerId: t.id, element: 'air', kind: isCrane ? 'crane' : 'shuriken', x: t.x, y: t.y, angle: a + off, speed: 340 * (t.pathA >= 1 ? 1.3 : 1), damage: t.pathA >= 4 ? 18 : 12, pierce: t.pathA >= 4 ? 4 : isCrane ? 3 : t.pathB >= 1 ? 4 : 2, radius: isCrane ? 10 : 8, maxLife: isCrane ? 3.5 : 1.8, homingTurnRate: 0.08 * (t.pathA >= 1 ? 2 : 1), targetEnemyId: target.id, pathA: t.pathA, pathB: t.pathB });
+          }
+        }
+      } else if (t.element === 'fire') {
+        this.spawnProj({ towerId: t.id, element: 'fire', kind: 'lantern', x: t.x, y: t.y, angle: a, speed: 310, damage: t.pathB >= 1 ? 26 : 18, pierce: 1, radius: 9, splashRadius: t.pathB >= 1 ? 68 : 48, maxLife: 2.0, targetX: target.x, targetY: target.y, pathA: t.pathA, pathB: t.pathB });
+      } else if (t.element === 'water') {
+        if (t.pathA >= 2) {
+          this.spawnProj({ towerId: t.id, element: 'water', kind: 'koi', x: target.x, y: target.y, angle: target.angle + Math.PI, speed: 240, damage: 16, pierce: 8, radius: 14, maxLife: 2.5, splineLane: target.laneIndex, splineDist: target.distanceTraveled, splineDistRemaining: 220, pathA: t.pathA, pathB: t.pathB });
+        } else {
+          this.spawnProj({ towerId: t.id, element: 'water', kind: 'wave_crest', x: t.x, y: t.y, angle: a, speed: 360 * (t.pathA >= 1 ? 1.25 : 1), damage: 11, pierce: 1, radius: 9, maxLife: 2.0, homingTurnRate: 0.04, targetEnemyId: target.id, ricochetsLeft: t.pathA >= 1 ? 4 : 2, ricochetRange: 90, pathA: t.pathA, pathB: t.pathB });
+        }
+      } else if (t.element === 'earth') {
+        if (t.pathA >= 4) {
+          this.spawnProj({ towerId: t.id, element: 'earth', kind: 'boulder', x: target.x, y: target.y, angle: target.angle + Math.PI, speed: 190, damage: 140, pierce: 12, radius: 22, maxLife: 4.5, splineLane: target.laneIndex, splineDist: target.distanceTraveled, splineDistRemaining: 420, pathA: t.pathA, pathB: t.pathB });
+        } else {
+          this.spawnProj({ towerId: t.id, element: 'earth', kind: 'monolith_spike', x: t.x, y: t.y, angle: a, speed: 440, damage: t.pathA >= 1 ? 55 : 34, pierce: 1, radius: 10, maxLife: 1.5, stun: t.pathA >= 1 ? 0.5 : 0.35, pathA: t.pathA, pathB: t.pathB });
+        }
+      } else if (t.element === 'ink') {
+        if (t.pathB >= 4 && t.shotCount % 5 === 0) {
+          target.status.voidTimer = 2.5; target.status.voidDamage = 160; target.status.voidSourceTowerId = t.id;
+          target.status.stained = Math.max(target.status.stained, 4.0); target.camoRevealed = true;
+          this.callouts.push({ x: target.x, y: target.y - 16, text: 'VOID CUBE!', color: '#1D1E2C', life: 0.9, maxLife: 0.9, scale: 0.95 });
+        } else {
+          this.spawnProj({ towerId: t.id, element: 'ink', kind: 'ink_blot', x: t.x, y: t.y, angle: a, speed: 350, damage: 8, pierce: 1, radius: 9, splashRadius: t.pathA >= 1 ? 62 : 42, maxLife: 1.8, stripsCamo: true, pathA: t.pathA, pathB: t.pathB });
+        }
+      }
+    }
+
+    spawnProj(o) {
+      this.projectiles.push({
+        id: this.nextId++, towerId: o.towerId, element: o.element, kind: o.kind,
+        x: o.x, y: o.y, prevX: o.x, prevY: o.y,
+        vx: Math.cos(o.angle) * o.speed, vy: Math.sin(o.angle) * o.speed,
+        speed: o.speed, angle: o.angle, damage: o.damage, pierce: o.pierce,
+        radius: o.radius, splashRadius: o.splashRadius || 0, life: o.maxLife, maxLife: o.maxLife,
+        homingTurnRate: o.homingTurnRate || 0, targetEnemyId: o.targetEnemyId || null,
+        ricochetsLeft: o.ricochetsLeft || 0, ricochetRange: o.ricochetRange || 90,
+        bouncesLeft: o.bouncesLeft || 0, knockback: o.knockback || 0,
+        stripsCamo: !!o.stripsCamo, stripsArmor: !!o.stripsArmor, stun: o.stun || 0,
+        splineLane: o.splineLane, splineDist: o.splineDist, splineDistRemaining: o.splineDistRemaining,
+        targetX: o.targetX, targetY: o.targetY, hitEnemyIds: new Set(),
+        pathA: o.pathA || 0, pathB: o.pathB || 0, recursionDepth: o.recursionDepth || 0, alive: true
+      });
+    }
+
+    updateProjectiles(dt) {
+      for (const p of this.projectiles) {
+        if (!p.alive) continue;
+        p.prevX = p.x; p.prevY = p.y;
+        p.life -= dt;
+        if (p.life <= 0) { if (p.kind === 'boulder') this.detonateBoulder(p); p.alive = false; continue; }
+
+        if (p.splineLane !== undefined) {
+          const step = p.speed * dt;
+          p.splineDist -= step; p.splineDistRemaining -= step;
+          if (p.splineDist <= 0 || p.splineDistRemaining <= 0) {
+            if (p.kind === 'boulder') this.detonateBoulder(p);
+            p.alive = false; continue;
+          }
+          const smp = sampleLaneAt(this.bakedMap.lanes[p.splineLane], p.splineDist);
+          p.x = smp.x; p.y = smp.y; p.angle = smp.angle + Math.PI;
+          if (p.kind === 'koi' && p.pathA >= 3 && Math.random() < 0.25) {
+            this.groundEffects.push({ id: this.nextId++, towerId: p.towerId, element: 'water', kind: 'wet_wake', x: p.x, y: p.y, radius: 34, dps: 0, slow: 0.35, pullSpeed: 0, damageAmp: 0, stripsArmor: false, life: 3.0, maxLife: 3.0, tickTimer: 0, rotation: p.angle });
+          }
+        } else {
+          if (p.homingTurnRate > 0) {
+            let target = p.targetEnemyId ? this.enemies.find((e) => e.id === p.targetEnemyId && e.alive && !p.hitEnemyIds.has(e.id)) : null;
+            if (!target) {
+              target = this.findNearestEnemy(p.x, p.y, 260, p.hitEnemyIds);
+              p.targetEnemyId = target ? target.id : null;
+            }
+            if (target) {
+              let diff = Math.atan2(target.y - p.y, target.x - p.x) - p.angle;
+              while (diff > Math.PI) diff -= 6.283185;
+              while (diff < -Math.PI) diff += 6.283185;
+              p.angle += Math.max(-p.homingTurnRate, Math.min(p.homingTurnRate, diff));
+              p.vx = Math.cos(p.angle) * p.speed; p.vy = Math.sin(p.angle) * p.speed;
+            }
+          }
+          p.x += p.vx * dt; p.y += p.vy * dt;
+          if (p.bouncesLeft > 0) {
+            let b = false;
+            if (p.x < 16 || p.x > CANVAS_WIDTH - 16) { p.vx = -p.vx; p.x = Math.max(16, Math.min(CANVAS_WIDTH - 16, p.x)); b = true; }
+            if (p.y < 16 || p.y > CANVAS_HEIGHT - 16) { p.vy = -p.vy; p.y = Math.max(16, Math.min(CANVAS_HEIGHT - 16, p.y)); b = true; }
+            if (b) { p.bouncesLeft--; p.angle = Math.atan2(p.vy, p.vx); p.hitEnemyIds.clear(); }
+          } else if (p.x < -60 || p.x > CANVAS_WIDTH + 60 || p.y < -60 || p.y > CANVAS_HEIGHT + 60) {
+            p.alive = false; continue;
+          }
+        }
+
+        if ((p.kind === 'lantern' || p.kind === 'sky_lantern') && p.targetX !== undefined) {
+          if (Math.hypot(p.targetX - p.x, p.targetY - p.y) <= p.speed * dt + 10) {
+            this.detonateLantern(p, p.targetX, p.targetY); p.alive = false; continue;
+          }
+        }
+
+        const tower = this.towers.find((t) => t.id === p.towerId) || null;
+        for (const e of this.enemies) {
+          if (!e.alive || p.hitEnemyIds.has(e.id) || e.hitProjectileIds.has(p.id)) continue;
+          if (tower && !this.canSee(tower, e) && !p.stripsCamo) continue;
+          if (distToSegmentSq(e.x, e.y, p.prevX, p.prevY, p.x, p.y) <= (p.radius + e.radius) ** 2) {
+            this.onProjectileHit(p, e, tower);
+            if (!p.alive) break;
+          }
+        }
+      }
+      this.projectiles = this.projectiles.filter((p) => p.alive);
+    }
+
+    onProjectileHit(p, e, tower) {
+      p.hitEnemyIds.add(e.id); e.hitProjectileIds.add(p.id);
+      if (p.kind === 'lantern' || p.kind === 'sky_lantern') { this.detonateLantern(p, e.x, e.y); p.alive = false; return; }
+      if (p.stripsCamo) e.camoRevealed = true;
+      if (p.stripsArmor && e.isArmored) e.armorStripped = true;
+      if (p.knockback > 0 && !e.isBoss && !(e.archetype === 'crane' && p.knockback < 20)) {
+        e.distanceTraveled = Math.max(0, e.distanceTraveled - p.knockback);
+      }
+
+      let dmg = p.damage;
+      if (p.kind === 'crystal_shard' && p.pathA >= 3 && (e.status.soaked > 0 || e.status.stained > 0 || e.status.fractured > 0)) dmg *= 2;
+
+      if (p.kind === 'ink_blot') {
+        this.spawnRing(e.x, e.y, p.splashRadius, '#1D1E2C');
+        for (const o of this.enemies) {
+          if (o.alive && Math.hypot(o.x - e.x, o.y - e.y) <= p.splashRadius) {
+            o.camoRevealed = true;
+            this.applyElementalHit(o, dmg, 'ink', tower, p.recursionDepth, { killId: p.id, stainedSlow: p.pathA >= 1 ? 0.52 : 0.45 });
+          }
+        }
+        if (p.pathB >= 2 && e.alive) {
+          const linked = [e];
+          for (const o of this.enemies) {
+            if (o.alive && o.id !== e.id && Math.hypot(o.x - e.x, o.y - e.y) <= 95) { linked.push(o); if (linked.length >= 4) break; }
+          }
+          const ids = linked.map((x) => x.id);
+          linked.forEach((x) => { x.status.tetherIds = ids; x.status.tetherTimer = 3.5; x.status.tetherNoSplit = p.pathB >= 3; if (p.pathB >= 3) x.camoRevealed = true; });
+        }
+        p.alive = false; return;
+      }
+
+      this.applyElementalHit(e, dmg, p.element, tower, p.recursionDepth, {
+        killId: p.id, stun: p.stun, soakedSlow: p.pathB >= 1 ? 0.38 : 0.25,
+        soakedDur: p.pathB >= 1 ? 5.0 : 3.5, glacial: p.element === 'water' && p.pathB >= 4,
+        stainedSlow: p.kind === 'ink_dragon' ? 0.65 : 0.45, stainedDur: p.kind === 'ink_dragon' ? 6.0 : 4.0
+      });
+
+      if (p.kind === 'monolith_spike' && p.pathA >= 2) {
+        const sp = (70 * Math.PI) / 180;
+        for (let i = 0; i < 5; i++) {
+          this.spawnProj({ towerId: p.towerId, element: 'earth', kind: 'crystal_shard', x: e.x, y: e.y, angle: p.angle - sp / 2 + (sp * i) / 4, speed: 480, damage: 18, pierce: 1, radius: 6, maxLife: 0.45, pathA: p.pathA, pathB: p.pathB, recursionDepth: p.recursionDepth });
+        }
+      }
+      if (p.kind === 'wave_crest' && p.pathB >= 2) {
+        this.groundEffects.push({ id: this.nextId++, towerId: p.towerId, element: 'water', kind: 'whirlpool', x: e.x, y: e.y, radius: p.pathB >= 3 ? 76 : 58, dps: 10, slow: 0.25, pullSpeed: 45, damageAmp: p.pathB >= 3 ? 0.25 : 0, stripsArmor: false, life: 2.0, maxLife: 2.0, tickTimer: 0, rotation: 0 });
+      }
+      if (p.kind === 'ink_blade') {
+        this.groundEffects.push({ id: this.nextId++, towerId: p.towerId, element: 'ink', kind: 'ink_pool', x: e.x, y: e.y, radius: 32, dps: 6, slow: 0.45, pullSpeed: 0, damageAmp: 0, stripsArmor: false, life: 3.0, maxLife: 3.0, tickTimer: 0, rotation: 0 });
+      }
+      if (p.ricochetsLeft > 0) {
+        const nxt = this.findNearestEnemy(e.x, e.y, p.ricochetRange, p.hitEnemyIds);
+        if (nxt) { p.ricochetsLeft--; p.targetEnemyId = nxt.id; p.angle = Math.atan2(nxt.y - p.y, nxt.x - p.x); p.vx = Math.cos(p.angle) * p.speed; p.vy = Math.sin(p.angle) * p.speed; return; }
+      }
+      p.pierce--;
+      if (p.pierce <= 0) {
+        if (p.kind === 'crane' && p.pathA >= 3) {
+          [-0.4, 0.4].forEach((off) => this.spawnProj({ towerId: p.towerId, element: 'air', kind: 'swallow', x: p.x, y: p.y, angle: p.angle + off, speed: 410, damage: 8, pierce: 2, radius: 7, maxLife: 1.4, homingTurnRate: 0.14, pathA: p.pathA, pathB: p.pathB, recursionDepth: p.recursionDepth }));
+        }
+        if (p.kind === 'boulder') this.detonateBoulder(p);
+        p.alive = false;
+      } else if (p.kind === 'crane') {
+        const nxt = this.findNearestEnemy(p.x, p.y, 240, p.hitEnemyIds);
+        p.targetEnemyId = nxt ? nxt.id : null;
+      }
+    }
+
+    detonateLantern(p, x, y) {
+      const tower = this.towers.find((t) => t.id === p.towerId) || null;
+      this.spawnRing(x, y, p.splashRadius, '#E63946');
+      const burnDps = p.pathA >= 1 ? 14 : 6;
+      for (const e of this.enemies) {
+        if (e.alive && Math.hypot(e.x - x, e.y - y) <= p.splashRadius) {
+          this.applyElementalHit(e, p.damage, 'fire', tower, p.recursionDepth, { killId: p.id, burnDps });
+        }
+      }
+      const ashCount = this.groundEffects.filter((g) => g.kind === 'ash' && Math.hypot(g.x - x, g.y - y) < 35).length;
+      if (ashCount < (p.pathB >= 3 ? 3 : 1)) {
+        this.groundEffects.push({ id: this.nextId++, towerId: p.towerId, element: 'fire', kind: 'ash', x, y, radius: 42, dps: p.pathB >= 3 ? 22 : burnDps, slow: 0, pullSpeed: 0, damageAmp: 0, stripsArmor: false, life: p.pathB >= 3 ? 5.0 : 2.5, maxLife: p.pathB >= 3 ? 5.0 : 2.5, tickTimer: 0, rotation: 0 });
+      }
+      if (p.kind === 'lantern' && p.pathB >= 2) {
+        for (let i = 0; i < 4; i++) {
+          const ang = (i * Math.PI) / 2 + 0.785;
+          const sx = x + Math.cos(ang) * 55, sy = y + Math.sin(ang) * 55;
+          this.spawnRing(sx, sy, 36, '#F4848D');
+          for (const e of this.enemies) {
+            if (e.alive && Math.hypot(e.x - sx, e.y - sy) <= 36) this.applyElementalHit(e, 14, 'fire', tower, p.recursionDepth, { burnDps });
+          }
+        }
+      }
+    }
+
+    detonateBoulder(p) {
+      const tower = this.towers.find((t) => t.id === p.towerId) || null;
+      this.spawnRing(p.x, p.y, 90, '#D4A373');
+      this.screenShake = Math.max(this.screenShake, 3);
+      for (const e of this.enemies) {
+        if (e.alive && Math.hypot(e.x - p.x, e.y - p.y) <= 90) this.applyElementalHit(e, 180, 'earth', tower, p.recursionDepth);
+      }
+    }
+
+    applyElementalHit(e, rawDmg, el, tower, depth, opts = {}) {
+      if (!e.alive) return;
+      if (e.status.frozen > 0 && e.status.frozenSource === 'glacial') {
+        e.status.frozen = 0; e.status.frozenSource = null;
+        this.spawnRing(e.x, e.y, 70, '#8AB8FF');
+        this.callouts.push({ x: e.x, y: e.y - 16, text: 'GLACIAL SHATTER!', color: '#3A86FF', life: 0.9, maxLife: 0.9, scale: 1 });
+        for (const o of this.enemies) {
+          if (o.alive && Math.hypot(o.x - e.x, o.y - e.y) <= 70) this.applyDamage(o, 110, 'water', tower, false, false, depth + 1);
+        }
+      }
+      if (opts.stun && !e.isBoss) e.status.stun = Math.max(e.status.stun, opts.stun);
+
+      if (e.reactionCooldown <= 0 && depth === 0) {
+        const prev = ['water', 'fire', 'air', 'earth', 'ink'].find((x) => x !== el && this.hasStatus(e, x));
+        if (prev) this.triggerCombo(e, prev, el, tower);
+        else this.primeStatus(e, el, opts);
+      } else {
+        this.primeStatus(e, el, opts);
+      }
+      if (e.alive) this.applyDamage(e, rawDmg, el, tower, false, false, depth, opts.killId);
+    }
+
+    primeStatus(e, el, opts) {
+      if (el === 'air') e.status.wind = Math.max(e.status.wind, 3.0);
+      else if (el === 'fire') { e.status.burning = Math.max(e.status.burning, 3.0); e.status.burnDps = Math.max(e.status.burnDps, opts.burnDps || 6); }
+      else if (el === 'water') {
+        e.status.soaked = Math.max(e.status.soaked, opts.soakedDur || 3.5);
+        e.status.soakedSlow = Math.max(e.status.soakedSlow, opts.soakedSlow || 0.25);
+        if (opts.glacial && !e.isBoss) {
+          e.status.soakedHits++;
+          if (e.status.soakedHits >= 3) { e.status.soakedHits = 0; e.status.frozen = Math.max(e.status.frozen, 1.8); e.status.frozenSource = 'glacial'; }
+        }
+      } else if (el === 'earth') e.status.fractured = Math.max(e.status.fractured, 3.0);
+      else if (el === 'ink') { e.status.stained = Math.max(e.status.stained, opts.stainedDur || 4.0); e.status.stainedSlow = Math.max(e.status.stainedSlow, opts.stainedSlow || 0.45); e.camoRevealed = true; }
+    }
+
+    clearStatus(e, el) {
+      if (el === 'air') e.status.wind = 0;
+      if (el === 'fire') e.status.burning = 0;
+      if (el === 'water') e.status.soaked = 0;
+      if (el === 'earth') e.status.fractured = 0;
+      if (el === 'ink') e.status.stained = 0;
+    }
+
+    triggerCombo(e, elA, elB, tower) {
+      const c = findCombo(elA, elB); if (!c) return;
+      this.clearStatus(e, elA); this.clearStatus(e, elB);
+      e.reactionCooldown = 1.2;
+      this.combosTriggered++;
+      this.screenShake = Math.max(this.screenShake, 3);
+      this.sound.playCombo();
+      if (!this.discoveredCombosRun.has(c.id)) {
+        this.discoveredCombosRun.add(c.id);
+        this.ink += 25;
+        this.callouts.push({ x: e.x, y: e.y - 36, text: 'NEW SEAL +25 INK', color: '#C1121F', life: 1.4, maxLife: 1.4, scale: 0.9 });
+      }
+      if (!this.discoveredCombosGlobal.has(c.id)) {
+        this.discoveredCombosGlobal.add(c.id);
+        this.persistLedger(false);
+      }
+      this.stampFlashes.push({ x: e.x, y: e.y, kanji: c.kanji, life: 1.0, maxLife: 1.0, rotation: (Math.random() - 0.5) * 0.25 });
+      this.callouts.push({ x: e.x, y: e.y - 18, text: c.callout, color: c.color, life: 1.05, maxLife: 1.05, scale: 1.15 });
+      this.spawnRing(e.x, e.y, 44, c.color);
+      const w = Math.max(1, this.wave), wm = e.status.wetWake > 0 ? 1.2 : 1;
+
+      if (c.id === 'scalding_steam') {
+        for (const o of this.enemies) if (o.alive && Math.hypot(o.x - e.x, o.y - e.y) <= 85) { o.status.steamSlow = 2.5; this.applyDamage(o, (45 + 6 * w) * wm, elB, tower, false, false, 1); }
+      } else if (c.id === 'monsoon_squall') {
+        const hits = [e], pts = [{ x: e.x, y: e.y }]; let cur = e;
+        for (let i = 0; i < 4; i++) {
+          const nxt = this.enemies.find((o) => o.alive && !hits.includes(o) && Math.hypot(o.x - cur.x, o.y - cur.y) <= 110);
+          if (!nxt) break; hits.push(nxt); pts.push({ x: nxt.x, y: nxt.y }); cur = nxt;
+        }
+        if (pts.length > 1) this.lightningArcs.push({ points: pts, color: '#2B93B8', life: 0.3, maxLife: 0.3 });
+        hits.forEach((h) => this.applyDamage(h, (35 + 4 * w) * wm, elB, tower, false, false, 1));
+      } else if (c.id === 'mudslide') {
+        if (!e.isBoss) e.status.root = Math.max(e.status.root, 1.3);
+        if (e.isArmored) e.armorStripped = true;
+        this.applyDamage(e, (40 + 5 * w) * wm, 'earth', tower, false, false, 1);
+      } else if (c.id === 'spreading_wash') {
+        for (const o of this.enemies) if (o.alive && Math.hypot(o.x - e.x, o.y - e.y) <= 115) { o.status.soaked = 3.5; o.status.stained = 4.0; o.camoRevealed = true; this.applyDamage(o, 25 * wm, 'ink', tower, false, false, 1); }
+      } else if (c.id === 'firestorm') {
+        for (const o of this.enemies) if (o.alive && Math.hypot(o.x - e.x, o.y - e.y) <= 80) { if (!o.isBoss) o.distanceTraveled = Math.max(0, o.distanceTraveled - 35); o.status.burning = 3.0; o.status.burnDps = Math.max(o.status.burnDps, 12); this.applyDamage(o, (50 + 6 * w) * wm, 'fire', tower, false, false, 1); }
+      } else if (c.id === 'molten_slag') {
+        this.groundEffects.push({ id: this.nextId++, towerId: tower ? tower.id : 0, element: 'fire', kind: 'magma', x: e.x, y: e.y, radius: 65, dps: (28 + 3 * w) * wm, slow: 0.2, pullSpeed: 0, damageAmp: 0, stripsArmor: true, life: 4.0, maxLife: 4.0, tickTimer: 0, rotation: 0 });
+      } else if (c.id === 'scorched_lacquer') {
+        this.applyDamage(e, (75 + 9 * w) * wm, 'fire', tower, true, false, 1);
+      } else if (c.id === 'sandstorm_shrapnel') {
+        for (let i = 0; i < 6; i++) this.spawnProj({ towerId: tower ? tower.id : 0, element: 'earth', kind: 'sand_needle', x: e.x, y: e.y, angle: e.angle + Math.PI - 0.785 + (1.57 * i) / 5, speed: 440, damage: (16 + 2 * w) * wm, pierce: 2, radius: 6, maxLife: 0.5, stripsArmor: true, recursionDepth: 1 });
+      } else if (c.id === 'calligraphy_gale') {
+        for (let i = 0; i < 3; i++) this.spawnProj({ towerId: tower ? tower.id : 0, element: 'ink', kind: 'ink_blade', x: e.x, y: e.y, angle: (i * Math.PI * 2) / 3, speed: 350, damage: (24 + 3 * w) * wm, pierce: 2, radius: 9, maxLife: 1.5, homingTurnRate: 0.14, stripsCamo: true, recursionDepth: 1 });
+      } else if (c.id === 'petrified_seal') {
+        if (!e.isBoss) { e.status.frozen = Math.max(e.status.frozen, 1.6); e.status.frozenSource = 'petrified'; }
+      }
+      this.uiDirty = true;
+    }
+
+    applyDamage(e, raw, el, tower, isTrue, isDot, depth, killId) {
+      if (!e.alive || raw <= 0) return;
+      let dmg = raw;
+      if (!isTrue) {
+        if (e.isArmored && !e.armorStripped) {
+          if (el === 'earth') dmg *= 2.0;
+          else if (el === 'air' || el === 'water') dmg *= 0.5;
+        }
+        let amp = 1;
+        if (e.status.fractured > 0) amp += 0.15;
+        if (e.status.vortexAmp > 0) amp += 0.25;
+        if (e.status.frozen > 0 && e.status.frozenSource === 'petrified') amp += 0.5;
+        dmg *= amp;
+      }
+      e.hp -= dmg; this.totalDamage += dmg;
+      if (tower) tower.damageDealt += dmg;
+      if (!isDot && depth === 0 && e.status.tetherTimer > 0 && e.status.tetherIds.length > 1) {
+        for (const id of e.status.tetherIds) {
+          if (id === e.id) continue;
+          const o = this.enemies.find((x) => x.id === id && x.alive);
+          if (o) this.applyDamage(o, dmg * 0.4, el, tower, true, true, 1);
+        }
+      }
+      if (e.hp <= 0) {
+        e.alive = false;
+        this.ink += e.bounty; this.totalKills++;
+        if (tower) tower.kills++;
+        this.sound.playPop();
+        this.spawnParticles(e.x, e.y, ENEMY_DEFS[e.archetype].color, 7, 'triangle');
+        const def = ENEMY_DEFS[e.archetype];
+        if (def.peelsInto && !(e.archetype === 'serpent' && e.status.tetherNoSplit)) {
+          for (let i = 0; i < def.peelsInto.count; i++) {
+            const off = def.peelsInto.count === 1 ? 0 : (i - (def.peelsInto.count - 1) / 2) * 6;
+            this.spawnEnemy(def.peelsInto.archetype, e.laneIndex, Math.max(0, e.distanceTraveled + off), false, false, killId);
+          }
+        }
+        this.uiDirty = true;
+      }
+    }
+
+    updateEnemies(dt) {
+      for (const e of this.enemies) {
+        if (!e.alive) continue;
+        e.animPhase += dt * 7;
+        if (e.reactionCooldown > 0) e.reactionCooldown = Math.max(0, e.reactionCooldown - dt);
+        for (const [k, v] of e.orbitCooldowns) { if (v - dt <= 0) e.orbitCooldowns.delete(k); else e.orbitCooldowns.set(k, v - dt); }
+        const st = e.status;
+        if (st.wind > 0) st.wind = Math.max(0, st.wind - dt);
+        if (st.burning > 0) { st.burning = Math.max(0, st.burning - dt); this.applyDamage(e, st.burnDps * dt, 'fire', null, false, true, 1); if (!e.alive) continue; }
+        if (st.soaked > 0) st.soaked = Math.max(0, st.soaked - dt);
+        if (st.fractured > 0) st.fractured = Math.max(0, st.fractured - dt);
+        if (st.stained > 0) st.stained = Math.max(0, st.stained - dt);
+        if (st.stun > 0) st.stun = Math.max(0, st.stun - dt);
+        if (st.root > 0) st.root = Math.max(0, st.root - dt);
+        if (st.frozen > 0) { st.frozen = Math.max(0, st.frozen - dt); if (st.frozen === 0) st.frozenSource = null; }
+        if (st.steamSlow > 0) st.steamSlow = Math.max(0, st.steamSlow - dt);
+        if (st.wetWake > 0) st.wetWake = Math.max(0, st.wetWake - dt);
+        if (st.vortexAmp > 0) st.vortexAmp = Math.max(0, st.vortexAmp - dt);
+        if (st.tetherTimer > 0) { st.tetherTimer = Math.max(0, st.tetherTimer - dt); if (st.tetherTimer === 0) { st.tetherIds = []; st.tetherNoSplit = false; } }
+        if (st.voidTimer > 0) {
+          st.voidTimer = Math.max(0, st.voidTimer - dt);
+          if (st.voidTimer === 0) {
+            const src = this.towers.find((t) => t.id === st.voidSourceTowerId) || null;
+            this.spawnRing(e.x, e.y, 90, '#1D1E2C');
+            for (const o of this.enemies) if (o.alive && Math.hypot(o.x - e.x, o.y - e.y) <= 90) this.applyDamage(o, st.voidDamage, 'ink', src, false, false, 1);
+            if (!e.alive) continue;
+          }
+        }
+        const immo = !e.isBoss && (st.stun > 0 || st.root > 0 || st.frozen > 0 || st.voidTimer > 0);
+        if (!immo) {
+          let sm = 1;
+          if (st.soaked > 0 && e.archetype !== 'serpent') sm = Math.min(sm, 1 - st.soakedSlow);
+          if (st.stained > 0) sm = Math.min(sm, 1 - st.stainedSlow);
+          if (st.steamSlow > 0) sm = Math.min(sm, 0.6);
+          if (st.wetWake > 0) sm = Math.min(sm, 0.65);
+          if (st.tetherTimer > 0 && st.tetherNoSplit) sm = Math.min(sm, 0.7);
+          if (e.isBoss) sm = Math.max(0.75, sm);
+          if (this.corruptedModifier === 'swift_gale') sm *= 1.25;
+          const lane = this.bakedMap.lanes[e.laneIndex];
+          if (this.bakedMap.def.outerSpeedBonus && e.distanceTraveled < lane.totalLength * 0.4) sm *= 1.15;
+          e.distanceTraveled += e.baseSpeed * sm * dt;
+          if (e.distanceTraveled >= lane.totalLength) {
+            e.alive = false;
+            this.lives = Math.max(0, this.lives - (e.isBoss ? 25 : 1));
+            this.screenShake = Math.max(this.screenShake, 5);
+            this.sound.playStamp();
+            if (this.lives <= 0) { this.gameOver = 'defeat'; this.persistLedger(false); }
+            this.uiDirty = true; continue;
+          }
+          const smp = sampleLaneAt(lane, e.distanceTraveled);
+          e.x = smp.x; e.y = smp.y; e.angle = smp.angle;
+        }
+      }
+      this.enemies = this.enemies.filter((e) => e.alive);
+    }
+
+    updateGroundEffects(dt) {
+      for (const g of this.groundEffects) {
+        g.life -= dt; g.rotation += dt * 3.5;
+        if (g.life <= 0) continue;
+        g.tickTimer -= dt;
+        const doTick = g.tickTimer <= 0;
+        if (doTick) g.tickTimer = 0.25;
+        const tower = this.towers.find((t) => t.id === g.towerId) || null;
+        for (const e of this.enemies) {
+          if (!e.alive || Math.hypot(g.x - e.x, g.y - e.y) > g.radius) continue;
+          if (g.kind === 'ink_pool') { e.status.stained = Math.max(e.status.stained, 0.6); e.status.stainedSlow = Math.max(e.status.stainedSlow, g.slow); e.camoRevealed = true; if (g.stripsArmor && e.isArmored) e.armorStripped = true; }
+          else if (g.kind === 'wet_wake') { e.status.wetWake = 0.5; e.status.soaked = Math.max(e.status.soaked, 0.8); }
+          else if (g.kind === 'whirlpool') {
+            if (g.damageAmp > 0) e.status.vortexAmp = 0.4;
+            if (!e.isBoss) {
+              const lane = this.bakedMap.lanes[e.laneIndex];
+              const a = sampleLaneAt(lane, Math.min(lane.totalLength, e.distanceTraveled + 6));
+              const b = sampleLaneAt(lane, Math.max(0, e.distanceTraveled - 6));
+              const dir = Math.hypot(a.x - g.x, a.y - g.y) < Math.hypot(b.x - g.x, b.y - g.y) ? 1 : -1;
+              e.distanceTraveled = Math.max(0, e.distanceTraveled + dir * g.pullSpeed * dt);
+            }
+          } else if (g.kind === 'magma' && g.stripsArmor && e.isArmored) e.armorStripped = true;
+          if (doTick && g.dps > 0) this.applyDamage(e, g.dps * 0.25, g.element, tower, false, true, 1);
+        }
+      }
+      this.groundEffects = this.groundEffects.filter((g) => g.life > 0);
+    }
+
+    updateVfx(dt) {
+      for (const p of this.particles) { p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.rotation += p.vRot * dt; if (p.shape === 'ring') p.size += dt * 165; else { p.vx *= 0.94; p.vy *= 0.94; } }
+      this.particles = this.particles.filter((p) => p.life > 0);
+      for (const c of this.callouts) { c.life -= dt; c.y -= dt * 26; }
+      this.callouts = this.callouts.filter((c) => c.life > 0);
+      for (const s of this.stampFlashes) s.life -= dt;
+      this.stampFlashes = this.stampFlashes.filter((s) => s.life > 0);
+      for (const a of this.lightningArcs) a.life -= dt;
+      this.lightningArcs = this.lightningArcs.filter((a) => a.life > 0);
+    }
+
+    findNearestEnemy(x, y, maxR, exclude) {
+      let best = null, bSq = maxR * maxR;
+      for (const e of this.enemies) {
+        if (!e.alive || exclude.has(e.id)) continue;
+        const d2 = (e.x - x) ** 2 + (e.y - y) ** 2;
+        if (d2 < bSq) { bSq = d2; best = e; }
+      }
+      return best;
+    }
+
+    spawnParticles(x, y, color, count, shape) {
+      for (let i = 0; i < count; i++) {
+        const a = Math.random() * 6.283, s = 45 + Math.random() * 100;
+        this.particles.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, size: 4 + Math.random() * 4, color: i % 3 === 0 ? '#1A1918' : color, alpha: 0.95, life: 0.42, maxLife: 0.42, rotation: a, vRot: (Math.random() - 0.5) * 10, shape });
+      }
+    }
+    spawnRing(x, y, radius, color) {
+      this.particles.push({ x, y, vx: 0, vy: 0, size: Math.max(12, radius * 0.35), color, alpha: 0.8, life: 0.28, maxLife: 0.28, rotation: 0, vRot: 0, shape: 'ring' });
+    }
+
+    persistLedger(won) {
+      const l = loadLedger();
+      const k = `${this.mapId}:${this.difficultyId}`;
+      const prev = l.scores[k];
+      l.scores[k] = { bestWave: Math.max(prev ? prev.bestWave : 0, this.wave), won: (prev && prev.won) || won, combosFound: Math.max(prev ? prev.combosFound : 0, this.discoveredCombosRun.size), updatedAt: Date.now() };
+      l.discoveredCombos = Array.from(new Set([...l.discoveredCombos, ...this.discoveredCombosGlobal]));
+      saveLedger(l);
+    }
+
+    getMvp() {
+      let best = null;
+      for (const t of this.towers) if (!best || t.damageDealt > best.damageDealt) best = t;
+      return { totalKills: this.totalKills, combosTriggered: this.combosTriggered, mvpName: best ? this.getTowerName(best) : 'None', mvpDamage: best ? Math.round(best.damageDealt) : 0, mvpKills: best ? best.kills : 0 };
+    }
+
+    destroy() {
+      this.towers = []; this.enemies = []; this.projectiles = []; this.groundEffects = [];
+      this.particles = []; this.callouts = []; this.stampFlashes = []; this.lightningArcs = [];
+      this.spawnQueue = []; this.sound.destroy();
+    }
+  }
+
+  // Procedural Offscreen-Cached Renderer
+  const staticCaches = {};
+  function seededRng(seed) {
+    let s = seed;
+    return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+  }
+  function drawHanko(ctx, x, y, size, kanji) {
+    const h = size * 0.5;
+    ctx.save(); ctx.translate(x, y);
+    ctx.fillStyle = '#C1121F';
+    ctx.beginPath(); ctx.roundRect(-h, -h, size, size, 4); ctx.fill();
+    ctx.strokeStyle = '#F4EFE6'; ctx.lineWidth = 1.6;
+    ctx.strokeRect(-h + 3, -h + 3, size - 6, size - 6);
+    ctx.fillStyle = '#F4EFE6'; ctx.font = `bold ${Math.round(size * 0.58)}px Georgia, serif`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(kanji, 0, 1);
+    ctx.restore();
+  }
+  function getStaticCanvas(baked) {
+    if (staticCaches[baked.def.id]) return staticCaches[baked.def.id];
+    const off = document.createElement('canvas'); off.width = CANVAS_WIDTH; off.height = CANVAS_HEIGHT;
+    const ctx = off.getContext('2d');
+    const rng = seededRng(baked.def.id === 'river' ? 101 : baked.def.id === 'bridge' ? 202 : 303);
+
+    const g = ctx.createRadialGradient(480, 300, 60, 480, 300, 560);
+    g.addColorStop(0, '#F7F3EA'); g.addColorStop(0.7, '#F4EFE6'); g.addColorStop(1, '#E7DEC9');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    for (let i = 0; i < 400; i++) {
+      const fx = rng() * CANVAS_WIDTH, fy = rng() * CANVAS_HEIGHT, len = 8 + rng() * 24, a = rng() * Math.PI;
+      ctx.strokeStyle = i % 2 === 0 ? 'rgba(139,124,102,0.09)' : 'rgba(255,255,255,0.25)';
+      ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(fx + Math.cos(a) * len, fy + Math.sin(a) * len); ctx.stroke();
+    }
+    ctx.strokeStyle = 'rgba(43,41,39,0.28)'; ctx.lineWidth = 2; ctx.strokeRect(12, 12, CANVAS_WIDTH - 24, CANVAS_HEIGHT - 24);
+    ctx.strokeStyle = 'rgba(193,18,31,0.18)'; ctx.lineWidth = 1; ctx.strokeRect(17, 17, CANVAS_WIDTH - 34, CANVAS_HEIGHT - 34);
+
+    for (const c of baked.def.conduits) {
+      ctx.save(); ctx.beginPath(); ctx.arc(c.x, c.y, c.radius, 0, 6.283);
+      ctx.fillStyle = 'rgba(42,157,143,0.10)'; ctx.fill();
+      ctx.setLineDash([6, 4]); ctx.strokeStyle = 'rgba(42,157,143,0.65)'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.setLineDash([]); ctx.fillStyle = 'rgba(42,157,143,0.85)'; ctx.font = 'bold 10px Georgia, serif'; ctx.textAlign = 'center';
+      ctx.fillText('CONDUIT +15%', c.x, c.y + c.radius + 13); ctx.restore();
+    }
+
+    for (const lane of baked.lanes) {
+      const w = baked.def.trackHalfWidth * 2;
+      ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); lane.samples.forEach((s, i) => i ? ctx.lineTo(s.x, s.y) : ctx.moveTo(s.x, s.y));
+      ctx.strokeStyle = 'rgba(26,25,24,0.16)'; ctx.lineWidth = w + 12; ctx.stroke();
+      ctx.strokeStyle = '#1A1918'; ctx.lineWidth = w; ctx.stroke();
+      ctx.strokeStyle = 'rgba(244,239,230,0.14)'; ctx.lineWidth = w * 0.24; ctx.setLineDash([28, 18, 12, 22]); ctx.stroke(); ctx.setLineDash([]);
+      for (let i = 0; i < lane.samples.length; i += 4) {
+        const s = lane.samples[i], side = rng() > 0.5 ? 1 : -1, offDist = baked.def.trackHalfWidth + 3 + rng() * 10;
+        ctx.fillStyle = `rgba(26,25,24,${0.35 + rng() * 0.45})`;
+        ctx.beginPath(); ctx.arc(s.x + Math.cos(s.angle + 1.57) * side * offDist, s.y + Math.sin(s.angle + 1.57) * side * offDist, 1.2 + rng() * 2.6, 0, 6.283); ctx.fill();
+      }
+      ctx.restore();
+      const st = lane.samples[0];
+      ctx.save(); ctx.translate(st.x + 8, st.y); ctx.rotate(st.angle);
+      ctx.strokeStyle = '#F4EFE6'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(-12, 0); ctx.lineTo(14, 0); ctx.moveTo(6, -7); ctx.lineTo(15, 0); ctx.lineTo(6, 7); ctx.stroke(); ctx.restore();
+      const en = lane.samples[lane.samples.length - 1];
+      drawHanko(ctx, en.x, en.y, 26, '聖');
+    }
+
+    if (baked.def.bridgeCenter) {
+      const { x, y } = baked.def.bridgeCenter;
+      ctx.save(); ctx.translate(x, y); ctx.fillStyle = '#C8A27A'; ctx.strokeStyle = '#2B2927'; ctx.lineWidth = 2;
+      ctx.fillRect(-38, -28, 76, 56); ctx.strokeRect(-38, -28, 76, 56);
+      ctx.strokeStyle = '#C1121F'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(-40, -28); ctx.lineTo(40, -28); ctx.moveTo(-40, 28); ctx.lineTo(40, 28); ctx.stroke(); ctx.restore();
+    }
+
+    ctx.fillStyle = 'rgba(26,25,24,0.48)'; ctx.font = 'italic 13px Georgia, serif'; ctx.fillText(baked.def.name, 28, 34);
+    staticCaches[baked.def.id] = off;
+    return off;
+  }
+
+  function drawTower(ctx, t, elapsed, selected) {
+    const def = TOWER_DEFS[t.element], maxT = Math.max(t.pathA, t.pathB), sc = 1 + (t.placeAnim || 0) * 0.16;
+    ctx.save(); ctx.translate(t.x, t.y); ctx.scale(sc, sc);
+    if (selected) { ctx.beginPath(); ctx.arc(0, 0, TOWER_RADIUS + 6, 0, 6.283); ctx.strokeStyle = '#C1121F'; ctx.lineWidth = 2.2; ctx.stroke(); }
+    ctx.fillStyle = 'rgba(26,25,24,0.18)'; ctx.beginPath(); ctx.ellipse(0, 12, 18 + maxT * 1.5, 7, 0, 0, 6.283); ctx.fill();
+    if (maxT >= 1) {
+      const ws = maxT >= 4 ? 26 : 18 + maxT * 2;
+      ctx.fillStyle = def.lightColor; ctx.strokeStyle = '#1A1918'; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(-4, 2); ctx.lineTo(-ws, -8 - maxT * 2); ctx.lineTo(-ws + 5, 8); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(4, 2); ctx.lineTo(ws, -8 - maxT * 2); ctx.lineTo(ws - 5, 8); ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+    const py = maxT >= 4 ? -25 : -18 - maxT * 1.5;
+    ctx.strokeStyle = '#1A1918'; ctx.lineWidth = 1.6;
+    ctx.fillStyle = def.lightColor; ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(-16, 11); ctx.lineTo(0, 15); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = def.color; ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(0, 15); ctx.lineTo(16, 11); ctx.closePath(); ctx.fill(); ctx.stroke();
+    if (maxT >= 3) {
+      ctx.strokeStyle = '#D4AF37'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(-16, 11); ctx.lineTo(0, 15); ctx.lineTo(16, 11); ctx.closePath(); ctx.stroke();
+      const cnt = maxT === 4 ? 4 : 2;
+      for (let i = 0; i < cnt; i++) {
+        const a = elapsed * 1.6 + (i * 6.283) / cnt;
+        ctx.fillStyle = '#F4EFE6'; ctx.strokeStyle = '#C1121F'; ctx.lineWidth = 1;
+        ctx.fillRect(Math.cos(a) * 23 - 3, Math.sin(a) * 14 - 10, 6, 12);
+        ctx.strokeRect(Math.cos(a) * 23 - 3, Math.sin(a) * 14 - 10, 6, 12);
+      }
+    }
+    if (maxT >= 4) {
+      ctx.fillStyle = '#F4D03F'; ctx.strokeStyle = '#1A1918'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(0, py - 8); ctx.lineTo(6, py + 2); ctx.lineTo(0, py + 5); ctx.lineTo(-6, py + 2); ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+    ctx.beginPath(); ctx.arc(0, 4, 8, 0, 6.283); ctx.fillStyle = def.darkColor; ctx.fill(); ctx.strokeStyle = '#F4EFE6'; ctx.lineWidth = 1.2; ctx.stroke();
+    ctx.fillStyle = '#F4EFE6'; ctx.font = 'bold 10px Georgia, serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(def.kanji, 0, 5);
+    ctx.restore();
+  }
+
+  function renderGame(ctx, eng, pointer, previewPath) {
+    ctx.save();
+    if (eng.screenShake > 0.2) {
+      const m = Math.min(4, eng.screenShake);
+      ctx.translate((Math.random() - 0.5) * m * 2, (Math.random() - 0.5) * m * 2);
+    }
+    ctx.drawImage(getStaticCanvas(eng.bakedMap), 0, 0);
+
+    // Ground effects
+    for (const g of eng.groundEffects) {
+      ctx.save(); ctx.globalAlpha = Math.min(1, g.life / Math.min(0.6, g.maxLife));
+      if (g.kind === 'great_wave') {
+        const wx = (1 - g.life / g.maxLife) * CANVAS_WIDTH;
+        const gr = ctx.createLinearGradient(wx - 110, 0, wx + 40, 0);
+        gr.addColorStop(0, 'rgba(58,134,255,0)'); gr.addColorStop(0.7, 'rgba(58,134,255,0.45)'); gr.addColorStop(1, 'rgba(244,239,230,0.85)');
+        ctx.fillStyle = gr; ctx.fillRect(wx - 110, 0, 150, CANVAS_HEIGHT);
+      } else {
+        ctx.translate(g.x, g.y); ctx.rotate(g.rotation);
+        if (g.kind === 'ash' || g.kind === 'magma') {
+          ctx.fillStyle = g.kind === 'magma' ? 'rgba(217,93,57,0.45)' : 'rgba(230,57,70,0.25)';
+          ctx.beginPath(); ctx.arc(0, 0, g.radius, 0, 6.283); ctx.fill();
+        } else if (g.kind === 'ink_pool') {
+          ctx.fillStyle = 'rgba(29,30,44,0.65)'; ctx.beginPath(); ctx.ellipse(0, 0, g.radius * 0.9, g.radius * 0.72, 0.3, 0, 6.283); ctx.fill();
+        } else if (g.kind === 'whirlpool') {
+          ctx.strokeStyle = 'rgba(58,134,255,0.68)'; ctx.lineWidth = 2;
+          for (let arm = 0; arm < 3; arm++) { ctx.beginPath(); for (let r = 4; r < g.radius; r += 4) { const a = arm * 2.094 + r * 0.11; if (r === 4) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r); else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); } ctx.stroke(); }
+        } else {
+          ctx.fillStyle = 'rgba(58,134,255,0.24)'; ctx.beginPath(); ctx.arc(0, 0, g.radius, 0, 6.283); ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+
+    // Resonance lines
+    ctx.save(); ctx.setLineDash([5, 5]); ctx.lineWidth = 1.4;
+    for (let i = 0; i < eng.towers.length; i++) {
+      for (let j = i + 1; j < eng.towers.length; j++) {
+        const a = eng.towers[i], b = eng.towers[j];
+        if (a.element !== b.element && Math.hypot(a.x - b.x, a.y - b.y) <= RESONANCE_RADIUS) {
+          ctx.strokeStyle = 'rgba(42,157,143,0.4)'; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+    if (eng.placingElement && pointer) {
+      for (const t of eng.towers) {
+        if (t.element !== eng.placingElement && Math.hypot(t.x - pointer.x, t.y - pointer.y) <= RESONANCE_RADIUS) {
+          ctx.strokeStyle = 'rgba(212,163,115,0.85)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(pointer.x, pointer.y); ctx.lineTo(t.x, t.y); ctx.stroke();
+        }
+      }
+    }
+    ctx.restore();
+
+    // Range rings
+    const drawRing = (x, y, r, color, dashed) => {
+      ctx.save(); ctx.beginPath(); ctx.arc(x, y, Math.min(r, 960), 0, 6.283);
+      ctx.fillStyle = color + '16'; ctx.fill();
+      if (dashed) ctx.setLineDash([7, 5]);
+      ctx.strokeStyle = color + 'AA'; ctx.lineWidth = 1.8; ctx.stroke(); ctx.restore();
+    };
+    if (eng.selectedTowerId !== null) {
+      const sel = eng.towers.find((t) => t.id === eng.selectedTowerId);
+      if (sel) {
+        const br = eng.getTowerRange(sel);
+        drawRing(sel.x, sel.y, br, TOWER_DEFS[sel.element].color, false);
+        if (previewPath) {
+          const nr = eng.getTowerRange(sel, previewPath);
+          if (nr > br) drawRing(sel.x, sel.y, nr, '#C1121F', true);
+        }
+      }
+    }
+    if (eng.placingElement && pointer) {
+      const valid = eng.isPlacementValid(pointer.x, pointer.y);
+      const def = TOWER_DEFS[eng.placingElement];
+      const inC = eng.bakedMap.def.conduits.some((c) => Math.hypot(pointer.x - c.x, pointer.y - c.y) <= c.radius);
+      drawRing(pointer.x, pointer.y, inC ? Math.round(def.range * 1.15) : def.range, valid ? def.color : '#C1121F', !valid);
+      ctx.save(); ctx.globalAlpha = valid ? 0.8 : 0.4;
+      drawTower(ctx, { element: eng.placingElement, x: pointer.x, y: pointer.y, pathA: 0, pathB: 0, placeAnim: 0 }, eng.elapsedTime, false);
+      ctx.restore();
+    }
+
+    // Towers + beams/orbits
+    for (const t of eng.towers) {
+      if (t.element === 'fire' && t.pathA >= 2 && t.beamActiveTimer > 0) {
+        ctx.save(); ctx.translate(t.x, t.y); ctx.rotate(t.aimAngle);
+        if (t.pathA >= 4) { ctx.fillStyle = 'rgba(230,57,70,0.45)'; ctx.fillRect(0, -10, 1050, 20); ctx.fillStyle = '#F4D03F'; ctx.fillRect(0, -4, 1050, 8); }
+        else { const h = ((t.pathA >= 3 ? 65 : 46) * Math.PI) / 360; ctx.fillStyle = 'rgba(230,57,70,0.48)'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, 130, -h, h); ctx.closePath(); ctx.fill(); }
+        ctx.restore();
+      }
+      if (t.element === 'earth' && t.pathB >= 2) {
+        const cnt = t.pathB >= 4 ? 6 : 3, rad = t.pathB >= 4 ? 90 : 68;
+        for (let i = 0; i < cnt; i++) {
+          const a = t.orbitAngle + (i * 6.283) / cnt;
+          ctx.save(); ctx.translate(t.x + Math.cos(a) * rad, t.y + Math.sin(a) * rad); ctx.rotate(a + eng.elapsedTime * 3);
+          ctx.fillStyle = '#D4A373'; ctx.strokeStyle = '#1A1918'; ctx.lineWidth = 1.4;
+          ctx.beginPath(); ctx.moveTo(0, -9); ctx.lineTo(7, 0); ctx.lineTo(0, 9); ctx.lineTo(-7, 0); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
+        }
+      }
+      drawTower(ctx, t, eng.elapsedTime, t.id === eng.selectedTowerId);
+    }
+
+    // Enemies
+    for (const e of eng.enemies) {
+      const def = ENEMY_DEFS[e.archetype];
+      ctx.save(); ctx.translate(e.x, e.y);
+      const stealth = e.isCamo && !e.camoRevealed;
+      if (stealth) ctx.globalAlpha = 0.42;
+      ctx.save(); ctx.rotate(e.angle);
+      const fl = Math.sin(e.animPhase) * 2.5;
+      ctx.fillStyle = def.color; ctx.strokeStyle = '#1A1918'; ctx.lineWidth = 1.5;
+      if (stealth) ctx.setLineDash([4, 3]);
+      if (e.archetype === 'moth') {
+        ctx.beginPath(); ctx.moveTo(11, 0); ctx.lineTo(-8, -9 - fl); ctx.lineTo(-4, 0); ctx.lineTo(-8, 9 + fl); ctx.closePath(); ctx.fill(); ctx.stroke();
+      } else if (e.archetype === 'crane') {
+        ctx.beginPath(); ctx.moveTo(14, 0); ctx.lineTo(2, -13 - fl); ctx.lineTo(-14, 0); ctx.lineTo(2, 13 + fl); ctx.closePath(); ctx.fill(); ctx.stroke();
+      } else if (e.archetype === 'fox') {
+        ctx.beginPath(); ctx.moveTo(14, 0); ctx.lineTo(4, -10); ctx.lineTo(-6, -12); ctx.lineTo(-12, 0); ctx.lineTo(-6, 12); ctx.lineTo(4, 10); ctx.closePath(); ctx.fill(); ctx.stroke();
+      } else if (e.archetype === 'serpent') {
+        for (let s = 2; s >= 0; s--) { const sx = -s * 8, sy = Math.sin(e.animPhase + s) * 4; ctx.beginPath(); ctx.moveTo(sx + 8, sy); ctx.lineTo(sx, sy - 7); ctx.lineTo(sx - 7, sy); ctx.lineTo(sx, sy + 7); ctx.closePath(); ctx.fill(); ctx.stroke(); }
+      } else if (e.archetype === 'tortoise') {
+        ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = i * 1.047; if (i) ctx.lineTo(Math.cos(a) * 15, Math.sin(a) * 13); else ctx.moveTo(Math.cos(a) * 15, Math.sin(a) * 13); } ctx.closePath(); ctx.fill(); ctx.stroke();
+      } else {
+        for (let s = 3; s >= 0; s--) { const sx = -s * 13, sy = Math.sin(e.animPhase * 0.7 + s) * 5, r = 18 - s * 2.5; ctx.beginPath(); ctx.moveTo(sx + r, sy); ctx.lineTo(sx, sy - r * 0.75); ctx.lineTo(sx - r * 0.8, sy); ctx.lineTo(sx, sy + r * 0.75); ctx.closePath(); ctx.fill(); ctx.stroke(); }
+      }
+      if (e.isArmored && !e.armorStripped) {
+        ctx.setLineDash([]); ctx.strokeStyle = '#2B2E36'; ctx.lineWidth = 2.4;
+        ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = i * 1.047; if (i) ctx.lineTo(Math.cos(a) * (e.radius - 2), Math.sin(a) * (e.radius - 2)); else ctx.moveTo(Math.cos(a) * (e.radius - 2), Math.sin(a) * (e.radius - 2)); } ctx.closePath(); ctx.stroke();
+      }
+      ctx.restore();
+      if (e.hp < e.maxHp || e.isBoss) {
+        const bw = e.isBoss ? 52 : 24, bh = e.isBoss ? 6 : 3.5;
+        ctx.fillStyle = 'rgba(26,25,24,0.75)'; ctx.fillRect(-bw / 2, -e.radius - 7, bw, bh);
+        ctx.fillStyle = e.isBoss ? '#C1121F' : '#2A9D8F'; ctx.fillRect(-bw / 2, -e.radius - 7, bw * Math.max(0, e.hp / e.maxHp), bh);
+      }
+      ctx.restore();
+    }
+
+    // Projectiles
+    for (const p of eng.projectiles) {
+      const col = TOWER_DEFS[p.element].color;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+      ctx.fillStyle = p.kind === 'shuriken' || p.kind === 'crane' || p.kind === 'koi' ? '#F4EFE6' : col;
+      ctx.strokeStyle = p.kind === 'koi' ? '#C1121F' : '#1A1918'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-5, -6); ctx.lineTo(-2, 0); ctx.lineTo(-5, 6); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.restore();
+    }
+
+    // Arcs, Particles, Stamps, Callouts
+    for (const arc of eng.lightningArcs) {
+      ctx.save(); ctx.strokeStyle = arc.color; ctx.lineWidth = 3; ctx.globalAlpha = arc.life / arc.maxLife;
+      ctx.beginPath(); arc.points.forEach((pt, i) => i ? ctx.lineTo(pt.x, pt.y) : ctx.moveTo(pt.x, pt.y)); ctx.stroke(); ctx.restore();
+    }
+    for (const p of eng.particles) {
+      ctx.save(); ctx.globalAlpha = Math.max(0, (p.life / p.maxLife) * p.alpha); ctx.translate(p.x, p.y); ctx.rotate(p.rotation);
+      if (p.shape === 'ring') { ctx.strokeStyle = p.color; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.arc(0, 0, p.size, 0, 6.283); ctx.stroke(); }
+      else { ctx.fillStyle = p.color; ctx.beginPath(); ctx.moveTo(0, -p.size); ctx.lineTo(p.size * 0.85, p.size * 0.7); ctx.lineTo(-p.size * 0.85, p.size * 0.7); ctx.closePath(); ctx.fill(); }
+      ctx.restore();
+    }
+    for (const s of eng.stampFlashes) {
+      ctx.save(); ctx.globalAlpha = Math.min(0.88, (s.life / s.maxLife) * 1.15); ctx.translate(s.x, s.y); ctx.rotate(s.rotation);
+      drawHanko(ctx, 0, 0, 34, s.kanji); ctx.restore();
+    }
+    for (const c of eng.callouts) {
+      ctx.save(); ctx.globalAlpha = Math.min(1, (c.life / c.maxLife) * 1.3);
+      ctx.font = `900 ${Math.round(14 * c.scale)}px Georgia, serif`; ctx.textAlign = 'center';
+      ctx.lineWidth = 3.5; ctx.strokeStyle = '#F4EFE6'; ctx.strokeText(c.text, c.x, c.y);
+      ctx.fillStyle = c.color; ctx.fillText(c.text, c.x, c.y); ctx.restore();
+    }
+    ctx.restore();
+  }
+
+  // App State & DOM Bindings
+  let selectedMap = 'river';
+  let selectedDiff = 'apprentice';
+  let engine = null;
+  let rafId = 0;
+  let pointer = null;
+  let previewPath = null;
+
+  const elTitle = document.getElementById('title-screen');
+  const elGame = document.getElementById('game-screen');
+  const canvas = document.getElementById('game-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function syncCanvasDpr() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(CANVAS_WIDTH * dpr);
+    canvas.height = Math.round(CANVAS_HEIGHT * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function renderTitleScreen() {
+    const ledger = loadLedger();
+    document.getElementById('title-codex-count').textContent = String(ledger.discoveredCombos.length);
+    const mapGrid = document.getElementById('map-grid');
+    mapGrid.innerHTML = '';
+    MAP_ORDER.forEach((id) => {
+      const m = MAP_DEFS[id];
+      const best = ledger.scores[`${id}:${selectedDiff}`];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.dataset.mapId = id;
+      btn.className = 'select-card' + (selectedMap === id ? ' active' : '');
+      btn.innerHTML = `<div class="card-top"><span class="pill">${m.tierLabel}</span>${best ? `<span class="best-tag">Best W${best.bestWave}${best.won ? ' ★' : ''}</span>` : ''}</div><h3 class="card-title serif">${m.name}</h3><p class="card-desc">${m.description}</p>`;
+      btn.addEventListener('click', () => { selectedMap = id; renderTitleScreen(); });
+      mapGrid.appendChild(btn);
+    });
+
+    const diffGrid = document.getElementById('diff-grid');
+    diffGrid.innerHTML = '';
+    DIFF_ORDER.forEach((id) => {
+      const d = DIFFICULTIES[id];
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.dataset.diffId = id;
+      btn.className = 'select-card' + (selectedDiff === id ? ' active' : '');
+      btn.innerHTML = `<div class="card-top"><span class="serif" style="font-weight:700;font-size:15px;">${d.name}</span><span class="pill" style="background:${d.accentColor}">${d.label}</span></div><div class="diff-stats"><span>${d.startingInk} Ink</span><span>${d.startingLives} ${d.startingLives === 1 ? 'Life' : 'Lives'}</span><span>${d.targetWave} Waves</span></div>`;
+      btn.addEventListener('click', () => { selectedDiff = id; renderTitleScreen(); });
+      diffGrid.appendChild(btn);
+    });
+  }
+
+  function renderHud() {
+    if (!engine) return;
+    document.getElementById('hud-wave').textContent = `Wave ${engine.wave}/${engine.endless ? '∞' : engine.targetWave}`;
+    document.getElementById('hud-lives').textContent = `♥ ${engine.lives}`;
+    document.getElementById('hud-ink').textContent = `● ${engine.ink}`;
+    document.getElementById('hud-codex-count').textContent = String(engine.discoveredCombosGlobal.size);
+
+    const canEarly = engine.inWave && engine.spawnQueue.length === 0 && engine.enemies.length > 0;
+    const wBtn = document.getElementById('btn-wave');
+    wBtn.disabled = engine.inWave && !canEarly;
+    wBtn.textContent = canEarly ? `Overclock W${engine.wave + 1}` : engine.inWave ? `In Wave (${engine.enemies.length + engine.spawnQueue.length})` : `Send Wave ${engine.wave + 1}`;
+
+    document.getElementById('btn-pause').textContent = engine.paused ? '▶' : '||';
+    [1, 2, 3].forEach((s) => document.getElementById(`btn-spd-${s}`).classList.toggle('active', engine.speed === s));
+    document.getElementById('btn-auto').classList.toggle('auto-on', engine.autoNext);
+    document.getElementById('btn-mute').textContent = engine.sound.muted ? 'Muted' : 'SFX';
+
+    const modBanner = document.getElementById('modifier-banner');
+    if (engine.corruptedModifier) {
+      const m = CORRUPTED_MODIFIERS[engine.corruptedModifier];
+      modBanner.textContent = `Corrupted Seal: ${m.name} — ${m.description}`;
+      modBanner.classList.remove('hidden');
+    } else modBanner.classList.add('hidden');
+
+    document.getElementById('btn-cancel-place').classList.toggle('hidden', !engine.placingElement);
+    const shop = document.getElementById('shop-grid');
+    shop.innerHTML = '';
+    ELEMENT_ORDER.forEach((el) => {
+      const def = TOWER_DEFS[el];
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.element = el;
+      b.disabled = engine.ink < def.cost;
+      b.className = 'seal-btn' + (engine.placingElement === el ? ' active' : '');
+      b.title = `${def.name} (${def.cost} Ink): ${def.summary}`;
+      b.innerHTML = `<span class="seal-disc serif" style="background:${def.color}">${def.kanji}</span><span class="seal-name">${def.jpName}</span><span class="seal-cost">${def.cost}</span>`;
+      b.addEventListener('click', () => {
+        engine.placingElement = engine.placingElement === el ? null : el;
+        if (engine.placingElement) engine.selectedTowerId = null;
+        engine.uiDirty = true;
+      });
+      shop.appendChild(b);
+    });
+
+    const insp = document.getElementById('inspector-area');
+    const sel = engine.selectedTowerId !== null ? engine.towers.find((t) => t.id === engine.selectedTowerId) : null;
+    if (!sel) {
+      insp.innerHTML = `<div class="inspector-empty"><p class="serif" style="margin:0;font-weight:700;font-size:14px;">${engine.placingElement ? `Placing ${TOWER_DEFS[engine.placingElement].name}` : 'Select or Place a Seal'}</p><p style="margin:6px 0 0;font-size:12px;color:#5C5552;">${engine.placingElement ? TOWER_DEFS[engine.placingElement].summary : 'Pick an Elemental Seal above and click open washi paper, or click a placed tower to fold upgrades.'}</p></div>`;
+    } else {
+      const def = TOWER_DEFS[sel.element];
+      const targets = [['first', 'First'], ['last', 'Last'], ['strong', 'Strong'], ['close', 'Close'], ['unprimed', 'Unprimed']];
+      let html = `<div class="insp-head"><div><div class="serif" style="font-weight:700;font-size:14px;">${engine.getTowerName(sel)}</div><div style="font-size:11px;color:#5C5552;">${sel.pathA}-${sel.pathB} • Range ${engine.getTowerRange(sel)}px${sel.inConduit ? ' (+15%)' : ''}</div></div><div style="text-align:right;font-size:11px;color:#4A4540;"><div>Kills: ${sel.kills}</div><div>Dmg: ${Math.round(sel.damageDealt)}</div></div></div>`;
+      html += `<div class="target-grid">${targets.map(([id, lbl]) => `<button type="button" data-target="${id}" class="target-btn ${sel.targeting === id ? 'active' : ''}">${lbl}</button>`).join('')}</div>`;
+      html += `<div class="tree-grid">`;
+      ['A', 'B'].forEach((path) => {
+        const tiers = path === 'A' ? def.pathA : def.pathB;
+        const pName = path === 'A' ? def.pathAName : def.pathBName;
+        const cur = path === 'A' ? sel.pathA : sel.pathB;
+        const oth = path === 'A' ? sel.pathB : sel.pathA;
+        const chk = engine.canUpgrade(sel, path);
+        const nxt = cur < 4 ? tiers[cur] : null;
+        const pips = [1, 2, 3, 4].map((n) => `<span class="pip ${cur >= n ? 'owned' : (oth >= 3 && n >= 3 ? 'locked' : '')}"></span>`).join('');
+        let body = '';
+        if (chk.sealed) body = `<div class="sealed-wrap"><span class="sealed-stamp serif">SEALED</span></div>`;
+        else if (chk.maxed) body = `<div style="padding:18px 0;text-align:center;font-size:11px;font-weight:700;color:#2A9D8F;" class="serif">APEX MASTERED</div>`;
+        else if (nxt) {
+          const badge = nxt.tag ? `<span class="tag-badge ${nxt.tag === 'APEX' ? 'tag-apex' : 'tag-transforms'}">${nxt.tag === 'APEX' ? 'APEX FORM' : 'TRANSFORMS PROJECTILE'}</span>` : '';
+          body = `<div><div style="font-size:11px;font-weight:700;">T${nxt.tier}: ${nxt.name}</div>${badge}<p style="margin:3px 0 0;font-size:10px;color:#4A4540;line-height:1.3;">${nxt.description}</p></div><button type="button" data-upgrade="${path}" class="upgrade-btn" ${chk.allowed ? '' : 'disabled'}>Fold (${chk.cost} Ink)</button>`;
+        }
+        html += `<div class="path-card" data-path-hover="${path}"><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#5C5552;">Path ${path}</div><div class="serif" style="font-weight:700;font-size:12px;">${pName}</div><div class="pips-row">${pips}</div></div>${body}</div>`;
+      });
+      html += `</div><button type="button" id="btn-salvage" class="salvage-btn">Salvage Seal (+${Math.floor(sel.totalInvested * SALVAGE_RATIO)} Ink)</button>`;
+      insp.innerHTML = html;
+
+      insp.querySelectorAll('[data-target]').forEach((b) => b.addEventListener('click', () => { sel.targeting = b.dataset.target; engine.uiDirty = true; }));
+      insp.querySelectorAll('[data-upgrade]').forEach((b) => b.addEventListener('click', () => { engine.upgradeTower(sel.id, b.dataset.upgrade); }));
+      insp.querySelectorAll('[data-path-hover]').forEach((el) => {
+        el.addEventListener('mouseenter', () => { previewPath = el.dataset.pathHover; });
+        el.addEventListener('mouseleave', () => { previewPath = null; });
+      });
+      document.getElementById('btn-salvage').addEventListener('click', () => { engine.salvageTower(sel.id); });
+    }
+
+    const endModal = document.getElementById('end-modal');
+    if (engine.gameOver !== 'none') {
+      const vic = engine.gameOver === 'victory';
+      const mvp = engine.getMvp();
+      document.getElementById('end-stamp').textContent = vic ? '勝' : '破';
+      document.getElementById('end-title').textContent = vic ? 'Sanctuary Sealed' : 'Scroll Torn';
+      document.getElementById('end-sub').textContent = vic ? `Cleared Wave ${engine.wave} with ${engine.lives} Lives remaining.` : `Overwhelmed on Wave ${engine.wave}.`;
+      document.getElementById('end-mvp').innerHTML = `<div><div style="color:#5C5552;">Total Unfolded</div><div style="font-weight:700;font-size:14px;">${mvp.totalKills}</div></div><div><div style="color:#5C5552;">Seal Reactions</div><div style="font-weight:700;font-size:14px;">${mvp.combosTriggered}</div></div><div style="grid-column:span 2;border-top:1px solid rgba(43,41,39,0.18);padding-top:6px;"><div style="color:#5C5552;">MVP Origami Seal</div><div class="serif" style="font-weight:700;font-size:13px;">${mvp.mvpName} (${mvp.mvpDamage} dmg • ${mvp.mvpKills} kills)</div></div>`;
+      document.getElementById('btn-endless').classList.toggle('hidden', !vic);
+      document.getElementById('btn-end-title').textContent = vic ? 'Claim Victory & Return to Scrolls' : 'Return to Scrolls';
+      endModal.classList.remove('hidden');
+    } else {
+      endModal.classList.add('hidden');
+    }
+  }
+
+  function openCodex() {
+    const globalSet = engine ? engine.discoveredCombosGlobal : new Set(loadLedger().discoveredCombos);
+    const runSet = engine ? engine.discoveredCombosRun : new Set();
+    document.getElementById('codex-sub').textContent = `10 Two-Element Seal Reactions • +25 Ink bonus on first trigger per run (${globalSet.size}/10 discovered)`;
+    const grid = document.getElementById('codex-grid');
+    grid.innerHTML = COMBO_DEFS.map((c) => {
+      const a = TOWER_DEFS[c.elements[0]], b = TOWER_DEFS[c.elements[1]], found = globalSet.has(c.id), inRun = runSet.has(c.id);
+      return `<div class="combo-card ${found ? 'found' : ''}"><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;"><div style="display:flex;align-items:center;gap:6px;"><span class="mini-disc serif" style="background:${a.color}">${a.kanji}</span><strong>+</strong><span class="mini-disc serif" style="background:${b.color}">${b.kanji}</span><strong class="serif" style="font-size:14px;">${c.name}</strong></div><span class="serif" style="width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;border-radius:2px;background:${found ? '#C1121F' : 'rgba(43,41,39,0.14)'};color:${found ? '#F4EFE6' : '#5C5552'};">${c.kanji}</span></div><p style="margin:6px 0 4px;font-size:12px;color:#4A4540;">${c.description}</p><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#5C5552;">${inRun ? 'Triggered This Run (+25 Ink)' : found ? 'Discovered in Ledger' : 'Undiscovered — Combine to Claim +25 Ink'}</div></div>`;
+    }).join('');
+    document.getElementById('codex-modal').classList.remove('hidden');
+  }
+
+  function stopLoop() {
+    if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    if (engine) { engine.destroy(); engine = null; }
+  }
+
+  function startGame() {
+    stopLoop();
+    engine = new GameEngine(selectedMap, selectedDiff);
+    pointer = null; previewPath = null;
+    elTitle.classList.add('hidden');
+    elGame.classList.remove('hidden');
+    syncCanvasDpr();
+    renderHud();
+    let lastTs = performance.now(), uiTimer = 0;
+    const loop = (ts) => {
+      const dt = (ts - lastTs) / 1000; lastTs = ts;
+      if (!engine) return;
+      engine.stepFrame(dt);
+      renderGame(ctx, engine, pointer, previewPath);
+      uiTimer += dt;
+      if (engine.uiDirty && uiTimer >= 0.08) { engine.uiDirty = false; uiTimer = 0; renderHud(); }
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function returnToTitle() {
+    stopLoop();
+    document.getElementById('end-modal').classList.add('hidden');
+    elGame.classList.add('hidden');
+    elTitle.classList.remove('hidden');
+    renderTitleScreen();
+  }
+
+  function toLogical(clientX, clientY) {
+    const r = canvas.getBoundingClientRect();
+    if (r.width <= 0 || r.height <= 0) return null;
+    return { x: ((clientX - r.left) / r.width) * CANVAS_WIDTH, y: ((clientY - r.top) / r.height) * CANVAS_HEIGHT };
+  }
+
+  canvas.addEventListener('pointermove', (e) => { pointer = toLogical(e.clientX, e.clientY); });
+  canvas.addEventListener('pointerleave', () => { pointer = null; });
+  canvas.addEventListener('contextmenu', (e) => { e.preventDefault(); if (engine) { engine.placingElement = null; engine.uiDirty = true; } });
+  canvas.addEventListener('pointerdown', (e) => {
+    if (!engine) return;
+    if (e.button === 2) { engine.placingElement = null; engine.uiDirty = true; return; }
+    const pt = toLogical(e.clientX, e.clientY);
+    if (!pt) return;
+    pointer = pt;
+    if (engine.placingElement) {
+      engine.placeTower(engine.placingElement, pt.x, pt.y);
+      renderHud();
+    } else {
+      const hit = engine.towers.find((t) => Math.hypot(t.x - pt.x, t.y - pt.y) <= TOWER_RADIUS + 6);
+      engine.selectedTowerId = hit ? hit.id : null;
+      renderHud();
+    }
+  });
+
+  document.getElementById('start-game-btn').addEventListener('click', startGame);
+  document.getElementById('title-codex-btn').addEventListener('click', openCodex);
+  document.getElementById('hud-codex-btn').addEventListener('click', openCodex);
+  document.getElementById('close-codex-btn').addEventListener('click', () => document.getElementById('codex-modal').classList.add('hidden'));
+  document.getElementById('codex-modal').addEventListener('click', (e) => { if (e.target.id === 'codex-modal') e.target.classList.add('hidden'); });
+  document.getElementById('btn-home').addEventListener('click', returnToTitle);
+  document.getElementById('btn-wave').addEventListener('click', () => { if (engine) { engine.startNextWave(); renderHud(); } });
+  document.getElementById('btn-pause').addEventListener('click', () => { if (engine) { engine.paused = !engine.paused; renderHud(); } });
+  document.getElementById('btn-spd-1').addEventListener('click', () => { if (engine) { engine.speed = 1; renderHud(); } });
+  document.getElementById('btn-spd-2').addEventListener('click', () => { if (engine) { engine.speed = 2; renderHud(); } });
+  document.getElementById('btn-spd-3').addEventListener('click', () => { if (engine) { engine.speed = 3; renderHud(); } });
+  document.getElementById('btn-auto').addEventListener('click', () => { if (engine) { engine.autoNext = !engine.autoNext; renderHud(); } });
+  document.getElementById('btn-mute').addEventListener('click', () => { if (engine) { engine.sound.muted = !engine.sound.muted; renderHud(); } });
+  document.getElementById('btn-cancel-place').addEventListener('click', () => { if (engine) { engine.placingElement = null; renderHud(); } });
+  document.getElementById('btn-endless').addEventListener('click', () => { if (engine) { engine.endless = true; engine.gameOver = 'none'; renderHud(); } });
+  document.getElementById('btn-end-title').addEventListener('click', returnToTitle);
+  document.getElementById('btn-end-replay').addEventListener('click', startGame);
+
+  window.addEventListener('resize', () => { if (engine) syncCanvasDpr(); });
+  window.addEventListener('keydown', (e) => {
+    if (!engine) return;
+    if (e.key === 'Escape') { engine.placingElement = null; document.getElementById('codex-modal').classList.add('hidden'); renderHud(); }
+    else if (e.key === ' ') { e.preventDefault(); engine.paused = !engine.paused; renderHud(); }
+    else if (e.key === '1' || e.key === '2' || e.key === '3') { engine.speed = Number(e.key); renderHud(); }
+  });
+
+  renderTitleScreen();
+  window.onload = () => { renderTitleScreen(); };
+})();
+</script>
+</body>
+</html>
