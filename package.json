@@ -1,0 +1,29 @@
+{
+  "name": "runic-origami-ink",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000 --host 0.0.0.0 --strictPort 2>&1 | tee dev.log",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173 --host 0.0.0.0 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "db:push": "echo '[db:push] Runic Origami & Ink is a zero-backend SPA - no database required'"
+  },
+  "dependencies": {
+    "lucide-react": "^0.525.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "playwright": "^1.50.0",
+    "tailwindcss": "^4.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.5"
+  }
+}

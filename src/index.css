@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --color-washi: #F4EFE6;
+  --color-parch: #EFE7D8;
+  --color-parch-dark: #E4D9C3;
+  --color-sumi: #2B2927;
+  --color-ink: #1A1918;
+  --color-crimson: #C1121F;
+  --color-jade: #2A9D8F;
+  --color-ochre: #D4A373;
+  --color-vermilion: #E63946;
+  --color-cobalt: #3A86FF;
+  --color-night: #171410;
+  --font-brush: Georgia, "Noto Serif SC", "Songti SC", "SimSun", "Times New Roman", serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #171410;
+  color: #2b2927;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+canvas {
+  display: block;
+}
+
+/* ---- Slim ink-themed scrollbars ---- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6b635a #e7dfcd;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: #e7dfcd;
+}
+*::-webkit-scrollbar-thumb {
+  background: #6b635a;
+  border-radius: 4px;
+}
+
+/* ---- Crimson hanko stamp (used on SEALED tiers, victory, seals) ---- */
+.hanko-stamp {
+  color: #c1121f;
+  border: 2px solid #c1121f;
+  border-radius: 3px;
+  font-family: var(--font-brush);
+  letter-spacing: 0.14em;
+  transform: rotate(-9deg);
+}
+
+/* ---- Animations ---- */
+@keyframes roi-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes roi-pop-in {
+  0% { opacity: 0; transform: scale(0.86); }
+  70% { transform: scale(1.03); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes roi-stamp-in {
+  0% { opacity: 0; transform: scale(2.4) rotate(-9deg); }
+  55% { opacity: 1; transform: scale(0.92) rotate(-9deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-9deg); }
+}
+@keyframes roi-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.roi-fade-in { animation: roi-fade-in 0.22s ease-out both; }
+.roi-pop-in { animation: roi-pop-in 0.26s cubic-bezier(0.2, 1.4, 0.5, 1) both; }
+.roi-stamp-in { animation: roi-stamp-in 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.roi-pulse { animation: roi-pulse 1.6s ease-in-out infinite; }
