@@ -1,70 +1,29 @@
-# Origami: Sealstorm
+# Origami: Sealstorm — Discussion Archive 001
 
-***Fold. Combine. Conquer.***
+**Fold. Combine. Conquer.**
 
-An original tower defense game combining Japanese paper-craft artistry, transformative elemental towers, and strategic combat.
+This independent, documentation-only branch preserves the project discussion culminating in the owner's request to archive the entire thread on November 27, 2026. It is a continuation resource, not a product implementation, release, or canonical lore branch.
 
-## Overview
+## Read in order
 
-Origami: Sealstorm takes place across enchanted paper scrolls, where elemental seals bring folded defenses to life.
+| File | Contents |
+| --- | --- |
+| [00 — Chronology](discussion/00-chronology.md) | All discussion stages and outcomes |
+| [01 — Owner statements](discussion/01-owner-statements.md) | Owner wording from available design turns, formatting normalized |
+| [02 — Tool adoption](discussion/02-tool-adoption.md) | VIB, Provenistem, Brand-Identity, Universe Bible installations |
+| [03 — Prototype and brand](discussion/03-prototype-and-brand.md) | Existing game and visual design reference |
+| [04 — Initial universe exploration](discussion/04-initial-universe.md) | Early faction, conflict, cooperation and expansion ideas; supersession warning |
+| [05 — Corrected concept audit](discussion/05-corrected-concept-audit.md) | Actual reactions, proximity, fusion, sanctuaries and wielder questions |
+| [06 — Ten seal definitions](discussion/06-ten-seal-options.md) | All ten concepts, ratings, owner feedback |
+| [07 — Three paths](discussion/07-three-paths.md) | Original synthesis, alternatives, progression and retrieval |
+| [08 — Unified architecture](discussion/08-unified-architecture.md) | Latest three owner ideas, five power factors, ink and fusion |
+| [09 — Approval ledger](discussion/09-approval-ledger.md) | Explicit locks versus preferences and proposals |
+| [10 — Open questions](discussion/10-open-questions.md) | Unresolved choices and design tensions |
+| [11 — Continuation handoff](discussion/11-continuation-handoff.md) | Self-contained fresh-thread task |
+| [12 — Evidence and limits](discussion/12-evidence.md) | Exact revisions, verification limits and scope |
 
-Players strategically place, evolve, and combine origami towers to defend their sanctuaries against increasingly powerful waves of folded creatures.
+## Authority
 
-Every fold introduces new possibilities. Every elemental combination changes the battlefield.
+Only the six manifestation categories are explicitly owner-locked within the new creative discussion. All other new world laws and mechanics remain exploratory or favored, unless the ledger says otherwise. The earlier Universe Bible and Provenistem idea were saved before later corrections; do not treat their drafts as superior to the owner's more recent statements.
 
-## Core Elements
-
-| Element | Identity | Combat Specialty |
-|---|---|---|
-| Air | Kaze | Homing attacks, piercing, and displacement |
-| Fire | Kagura | Explosions, burning, and area damage |
-| Water | Mizu | Ricochets, whirlpools, and freezing |
-| Earth | Tsuchi | Heavy impacts, armor breaking, and shattering |
-| Ink | Sumi | Crowd control, staining, and damage linking |
-
-## Planned Features
-
-- Five unique elemental tower families.
-- Forty transformative upgrade tiers.
-- Ten elemental combination reactions.
-- Ten advanced tower evolutions.
-- Six layered origami enemy archetypes.
-- Three handcrafted scroll battlefields.
-- Three difficulty modes.
-- Infinite Scroll endless survival.
-- Procedural 2D artwork, animations, and combat effects.
-- Procedural audio and persistent player statistics.
-
-## Design Philosophy
-
-- Mechanical depth over unnecessary complexity.
-- Meaningful upgrades that transform combat behavior.
-- Elemental combinations that reward experimentation.
-- A distinctive origami and ink visual identity.
-- Accessible gameplay with strategic replayability.
-- Performance, reliability, and reproducible verification.
-
-## Proposed Technology Stack
-
-| Technology | Purpose |
-|---|---|
-| TypeScript | Game logic and simulation |
-| React | User interface |
-| Vite | Development and production builds |
-| HTML5 Canvas | 2D rendering and animation |
-| Tailwind CSS | Interface styling |
-| Web Audio API | Procedural sound effects |
-| Playwright | Automated browser verification |
-| GitHub Actions | Continuous integration and testing |
-
-## Development Status
-
-Origami: Sealstorm is currently in its experimental foundation stage.
-
-Multiple independently generated prototypes are being evaluated to establish the official game architecture. Features and implementation details remain subject to testing, refinement, and approval.
-
----
-
-**Origami: Sealstorm**
-
-*Fold. Combine. Conquer.*
+This archive records approval; it does not itself migrate canon or modify any existing tool branch. The archive is a faithful structured reconstruction of the available conversation, not a byte-identical chat export: owner design messages are reproduced in substance and with original wording where available; long assistant answers, UI diagrams, image-reference widgets and tool calls are captured as written records and pinned evidence rather than copied as rendered chat markup. Earlier installation turns are reconstructed from available receipts/context. No private template development material, account details or unrelated projects are reproduced.
